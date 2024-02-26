@@ -192,6 +192,7 @@ class GraphPrinter extends ResultPrinter {
 		$node = null;
 		$fields = [];
 		$parents = [];
+		$label = $this->options->getNodeLabel();		
 		// loop through all row fields
 		foreach ( $row as $result_array ) {
 			$request = $result_array->getPrintRequest();
@@ -235,7 +236,13 @@ class GraphPrinter extends ResultPrinter {
 				// @TODO: add explicit nodes with hyperlinks to every parent node not added as '?', but only once.
 			}
 			foreach ( $fields as $field ) {
-				$node->addField( $field['name'], $field['value'], $field['type'], $field['page'] );
+				if ( $field['name'] === $label && $field['value'] ) {
+					// This property is to be used as the node label (nodelabel = Some property).
+					$node->setLabel( $field['value'] );
+				} else {
+					// This property is to be used as one of the additional node fields.
+					$node->addField( $field['name'], $field['value'], $field['type'], $field['page'] );
+				}
 			}
 			$this->nodes[] = $node;
 		}
