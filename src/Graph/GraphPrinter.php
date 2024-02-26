@@ -29,9 +29,6 @@ class GraphPrinter extends ResultPrinter {
 	// Implement `ResultPrinterDependency` once SMW 3.1 becomes mandatory
 
 	const NODELABEL_DISPLAYTITLE = 'displaytitle';
-	public static $NODE_LABELS = [
-		self::NODELABEL_DISPLAYTITLE,
-	];
 	/** @const string[] PAGETYPES SMW types that represent SMW pages and should always be displayed as nodes. */
 	private const PAGETYPES = [ '_wpg', '_wpp', '_wps', '_wpu', '__sup', '__sin', '__suc', '__con' ];
 
@@ -336,7 +333,6 @@ class GraphPrinter extends ResultPrinter {
 		$params['nodelabel'] = [
 			'default' => '',
 			'message' => 'srf-paramdesc-nodelabel',
-			'values' => self::$NODE_LABELS,
 		];
 
 		$params['graphfields'] = [
