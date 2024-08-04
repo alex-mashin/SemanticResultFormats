@@ -1,0 +1,3310 @@
+{
+	"__comment": "https://graphviz.org/doc/info/attrs.html",
+	"searchsize": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			30
+		],
+		"title": "searchsize",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/searchsize.md",
+		"description": "During network simplex, the maximum number of edges with negative cut values to search when looking for an edge with minimum cut value.",
+		"types": [
+			"integer"
+		]
+	},
+	"rects": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "rects",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/rects.md",
+		"description": "Rectangles for fields of records, in points",
+		"types": [
+			"rect"
+		]
+	},
+	"class": {
+		"flags": [
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "class",
+		"used_by": [
+			"edge",
+			"node",
+			"cluster",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/class.md",
+		"description": "Classnames to attach to the node, edge, graph, or cluster's SVG element",
+		"types": [
+			"string"
+		]
+	},
+	"ordering": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			""
+		],
+		"title": "ordering",
+		"used_by": [
+			"graph",
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/ordering.md",
+		"description": "Constrains the left-to-right ordering of node edges.",
+		"types": [
+			"string"
+		]
+	},
+	"resolution": {
+		"flags": [
+			"bitmap output",
+			"svg"
+		],
+		"defaults": [
+			96,
+			0
+		],
+		"title": "resolution",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/resolution.md",
+		"description": "Synonym for dpi.",
+		"types": [
+			"float"
+		]
+	},
+	"skew": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "skew",
+		"used_by": [
+			"node"
+		],
+		"minimums": [
+			-100
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/skew.md",
+		"description": "Skew factor for <code>shape=polygon</code>",
+		"types": [
+			"float"
+		]
+	},
+	"overlap_scaling": {
+		"flags": [
+			"prism",
+			"neato",
+			"sfdp",
+			"fdp",
+			"circo",
+			"twopi"
+		],
+		"defaults": [
+			-4
+		],
+		"title": "overlap_scaling",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			-10000000000
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/overlap_scaling.md",
+		"description": "Scale layout by factor, to reduce node overlap.",
+		"types": [
+			"float"
+		]
+	},
+	"target": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "target",
+		"used_by": [
+			"edge",
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/target.md",
+		"description": "If the object has a URL, this attribute determines which window of the browser is used for the URL.",
+		"types": [
+			"escString",
+			"string"
+		]
+	},
+	"labeldistance": {
+		"flags": [],
+		"defaults": [
+			1
+		],
+		"title": "labeldistance",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labeldistance.md",
+		"description": "Scaling factor for the distance of headlabel / taillabel from the head / tail nodes.",
+		"types": [
+			"float"
+		]
+	},
+	"size": {
+		"flags": [],
+		"defaults": [],
+		"title": "size",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/size.md",
+		"description": "Maximum width and height of drawing, in inches",
+		"types": [
+			"float",
+			"point"
+		]
+	},
+	"arrowsize": {
+		"flags": [],
+		"defaults": [
+			1
+		],
+		"title": "arrowsize",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/arrowsize.md",
+		"description": "Multiplicative scale factor for arrowheads",
+		"types": [
+			"float"
+		]
+	},
+	"dir": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": "forward",
+				"for": "(directed)"
+			},
+			{
+				"default": "none",
+				"for": "(undirected)"
+			}
+		],
+		"title": "dir",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/dir.md",
+		"description": "Edge type for drawing arrowheads",
+		"types": [
+			"dirType"
+		]
+	},
+	"labelangle": {
+		"flags": [],
+		"defaults": [
+			-25
+		],
+		"title": "labelangle",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [
+			-180
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelangle.md",
+		"description": "The angle (in degrees) in polar coordinates of the head & tail edge labels.",
+		"types": [
+			"float"
+		]
+	},
+	"mclimit": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			1
+		],
+		"title": "mclimit",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/mclimit.md",
+		"description": "Scale factor for mincross (mc) edge crossing minimiser parameters",
+		"types": [
+			"float"
+		]
+	},
+	"sep": {
+		"flags": [
+			"fdp",
+			"neato",
+			"sfdp",
+			"osage",
+			"circo",
+			"twopi"
+		],
+		"defaults": [
+			4
+		],
+		"title": "sep",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/sep.md",
+		"description": "Margin to leave around nodes when removing node overlap",
+		"types": [
+			"addDouble",
+			"addPoint"
+		]
+	},
+	"rotation": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			0
+		],
+		"title": "rotation",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/rotation.md",
+		"description": "Rotates the final layout counter-clockwise by the specified number of degrees",
+		"types": [
+			"float"
+		]
+	},
+	"xlabel": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "xlabel",
+		"used_by": [
+			"edge",
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/xlabel.md",
+		"description": "External label for a node or edge",
+		"types": [
+			"lblString"
+		]
+	},
+	"cluster": {
+		"defaults": [
+			"false"
+		],
+		"title": "cluster",
+		"used_by": [
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/cluster.md",
+		"description": "Whether the subgraph is a cluster",
+		"types": [
+			"boolean"
+		]
+	},
+	"pagedir": {
+		"flags": [],
+		"defaults": [
+			"BL"
+		],
+		"title": "pagedir",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/pagedir.md",
+		"description": "The order in which pages are emitted",
+		"types": [
+			"pagedir"
+		]
+	},
+	"lhead": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			""
+		],
+		"title": "lhead",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/lhead.md",
+		"description": "Logical head of an edge",
+		"types": [
+			"string"
+		]
+	},
+	"pos": {
+		"flags": [
+			"neato",
+			"fdp"
+		],
+		"defaults": [],
+		"title": "pos",
+		"used_by": [
+			"edge",
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/pos.md",
+		"description": "Position of node, or spline control points",
+		"types": [
+			"point",
+			"splineType"
+		]
+	},
+	"overlap_shrink": {
+		"flags": [
+			"prism"
+		],
+		"defaults": [
+			"true"
+		],
+		"title": "overlap_shrink",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/overlap_shrink.md",
+		"description": "Whether the overlap removal algorithm should perform a compression pass to reduce the size of the layout",
+		"types": [
+			"boolean"
+		]
+	},
+	"landscape": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "landscape",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/landscape.md",
+		"description": "If true, the graph is rendered in landscape mode",
+		"types": [
+			"boolean"
+		]
+	},
+	"bb": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "bb",
+		"used_by": [
+			"cluster",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/bb.md",
+		"description": "Bounding box of drawing in points",
+		"types": [
+			"rect"
+		]
+	},
+	"mode": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			"major"
+		],
+		"title": "mode",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/mode.md",
+		"description": "Technique for optimizing the layout",
+		"types": [
+			"string"
+		]
+	},
+	"minlen": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			1
+		],
+		"title": "minlen",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/minlen.md",
+		"description": "Minimum edge length (rank difference between head and tail)",
+		"types": [
+			"integer"
+		]
+	},
+	"samehead": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			""
+		],
+		"title": "samehead",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/samehead.md",
+		"description": "Edges with the same head and the same samehead value are aimed at the same point on the head",
+		"types": [
+			"string"
+		]
+	},
+	"href": {
+		"flags": [
+			"map",
+			"postscript",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "href",
+		"used_by": [
+			"graph",
+			"cluster",
+			"node",
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/href.md",
+		"description": "Synonym for URL",
+		"types": [
+			"escString"
+		]
+	},
+	"headtarget": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "headtarget",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headtarget.md",
+		"description": "Browser window to use for the headURL link",
+		"types": [
+			"escString"
+		]
+	},
+	"tailURL": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "tailURL",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tailURL.md",
+		"description": "If defined, tailURL is output as part of the tail label of the edge",
+		"types": [
+			"escString"
+		]
+	},
+	"beautify": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "beautify",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/beautify.md",
+		"description": "Whether to draw leaf nodes uniformly in a circle around the root node in sfdp.",
+		"types": [
+			"boolean"
+		]
+	},
+	"overlap": {
+		"flags": [
+			"fdp",
+			"neato",
+			"sfdp",
+			"circo",
+			"twopi"
+		],
+		"defaults": [
+			"true"
+		],
+		"title": "overlap",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/overlap.md",
+		"description": "Determines if and how node overlaps should be removed",
+		"types": [
+			"string",
+			"boolean"
+		]
+	},
+	"lheight": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "lheight",
+		"used_by": [
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/lheight.md",
+		"description": "Height of graph or cluster label, in inches",
+		"types": [
+			"float"
+		]
+	},
+	"distortion": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "distortion",
+		"used_by": [
+			"node"
+		],
+		"minimums": [
+			-100
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/distortion.md",
+		"description": "Distortion factor for <code>shape=polygon</code>",
+		"types": [
+			"float"
+		]
+	},
+	"color": {
+		"flags": [],
+		"defaults": [
+			"black"
+		],
+		"title": "color",
+		"used_by": [
+			"edge",
+			"node",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/color.md",
+		"description": "Basic drawing color for graphics, not text",
+		"types": [
+			"color",
+			"colorList"
+		]
+	},
+	"oneblock": {
+		"flags": [
+			"circo"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "oneblock",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/oneblock.md",
+		"description": "Whether to draw circo graphs around one circle.",
+		"types": [
+			"boolean"
+		]
+	},
+	"repulsiveforce": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			1
+		],
+		"title": "repulsiveforce",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/repulsiveforce.md",
+		"description": "The power of the repulsive force used in an extended Fruchterman-Reingold",
+		"types": [
+			"float"
+		]
+	},
+	"edgeURL": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "edgeURL",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/edgeURL.md",
+		"description": "The link for the non-label parts of an edge",
+		"types": [
+			"escString"
+		]
+	},
+	"clusterrank": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"local"
+		],
+		"title": "clusterrank",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/clusterrank.md",
+		"description": "Mode used for handling clusters",
+		"types": [
+			"clusterMode"
+		]
+	},
+	"nodesep": {
+		"flags": [],
+		"defaults": [
+			0.25
+		],
+		"title": "nodesep",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0.02
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/nodesep.md",
+		"description": "In dot, nodesep specifies the minimum space between two adjacent nodes in the same rank, in inches",
+		"types": [
+			"float"
+		]
+	},
+	"fontpath": {
+		"flags": [],
+		"defaults": [
+			"<system-dependent>"
+		],
+		"title": "fontpath",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fontpath.md",
+		"description": "Directory list used by libgd to search for bitmap fonts",
+		"types": [
+			"string"
+		]
+	},
+	"imagepos": {
+		"flags": [],
+		"defaults": [
+			"\"mc\""
+		],
+		"title": "imagepos",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/imagepos.md",
+		"description": "Controls how an image is positioned within its containing node",
+		"types": [
+			"string"
+		]
+	},
+	"layers": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "layers",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/layers.md",
+		"description": "A linearly ordered list of layer names attached to the graph",
+		"types": [
+			"layerList"
+		]
+	},
+	"dimen": {
+		"flags": [
+			"neato",
+			"fdp",
+			"sfdp"
+		],
+		"defaults": [
+			2
+		],
+		"title": "dimen",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			2
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/dimen.md",
+		"description": "Set the number of dimensions used for rendering",
+		"types": [
+			"integer"
+		]
+	},
+	"Damping": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			0.99
+		],
+		"title": "Damping",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/Damping.md",
+		"description": "Factor damping force motions.",
+		"types": [
+			"float"
+		]
+	},
+	"compound": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "compound",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/compound.md",
+		"description": "If true, allow edges between clusters",
+		"types": [
+			"boolean"
+		]
+	},
+	"K": {
+		"flags": [
+			"fdp",
+			"sfdp"
+		],
+		"defaults": [
+			0.3
+		],
+		"title": "K",
+		"used_by": [
+			"graph",
+			"cluster"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/K.md",
+		"description": "Spring constant used in virtual physical model",
+		"types": [
+			"float"
+		]
+	},
+	"inputscale": {
+		"flags": [
+			"neato",
+			"fdp"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "inputscale",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/inputscale.md",
+		"description": "Scales the input positions to convert between length units",
+		"types": [
+			"float"
+		]
+	},
+	"levelsgap": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			0
+		],
+		"title": "levelsgap",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/levelsgap.md",
+		"description": "strictness of neato level constraints",
+		"types": [
+			"float"
+		]
+	},
+	"area": {
+		"flags": [
+			"patchwork"
+		],
+		"defaults": [
+			1
+		],
+		"title": "area",
+		"used_by": [
+			"node",
+			"cluster"
+		],
+		"minimums": [
+			">0"
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/area.md",
+		"description": "Indicates the preferred area for a node or empty cluster",
+		"types": [
+			"float"
+		]
+	},
+	"linelength": {
+		"flags": [],
+		"defaults": [
+			128
+		],
+		"title": "linelength",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			60
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/linelength.md",
+		"description": "How long strings should get before overflowing to next line, for text output.",
+		"types": [
+			"integer"
+		]
+	},
+	"edgehref": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "edgehref",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/edgehref.md",
+		"description": "Synonym for edgeURL",
+		"types": [
+			"escString"
+		]
+	},
+	"esep": {
+		"flags": [
+			"neato",
+			"fdp",
+			"sfdp",
+			"osage",
+			"circo",
+			"twopi"
+		],
+		"defaults": [
+			3
+		],
+		"title": "esep",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/esep.md",
+		"description": "Margin used around polygons for purposes of spline edge routing",
+		"types": [
+			"addDouble",
+			"addPoint"
+		]
+	},
+	"headURL": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "headURL",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headURL.md",
+		"description": "If defined, headURL is output as part of the head label of the edge",
+		"types": [
+			"escString"
+		]
+	},
+	"fillcolor": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": "lightgrey",
+				"for": "(nodes)"
+			},
+			{
+				"default": "black",
+				"for": "(clusters)"
+			}
+		],
+		"title": "fillcolor",
+		"used_by": [
+			"node",
+			"edge",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fillcolor.md",
+		"description": "Color used to fill the background of a node or cluster",
+		"types": [
+			"color",
+			"colorList"
+		]
+	},
+	"headport": {
+		"flags": [],
+		"defaults": [
+			"center"
+		],
+		"title": "headport",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headport.md",
+		"description": "Indicates where on the head node to attach the head of the edge",
+		"types": [
+			"portPos"
+		]
+	},
+	"orientation": {
+		"flags": [],
+		"defaults": [
+			0,
+			""
+		],
+		"title": "orientation",
+		"used_by": [
+			"node",
+			"graph"
+		],
+		"minimums": [
+			-360
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/orientation.md",
+		"description": "node shape rotation angle, or graph orientation",
+		"types": [
+			"float",
+			"string"
+		]
+	},
+	"TBbalance": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"''"
+		],
+		"title": "TBbalance",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/TBbalance.md",
+		"description": "Which rank to move floating (loose) nodes to",
+		"types": [
+			"string"
+		]
+	},
+	"decorate": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "decorate",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/decorate.md",
+		"description": "Whether to connect the edge label to the edge with a line",
+		"types": [
+			"boolean"
+		]
+	},
+	"penwidth": {
+		"flags": [],
+		"defaults": [
+			1
+		],
+		"title": "penwidth",
+		"used_by": [
+			"cluster",
+			"node",
+			"edge"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/penwidth.md",
+		"description": "Specifies the width of the pen, in points, used to draw lines and curves",
+		"types": [
+			"float"
+		]
+	},
+	"comment": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "comment",
+		"used_by": [
+			"edge",
+			"node",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/comment.md",
+		"description": "Comments are inserted into output",
+		"types": [
+			"string"
+		]
+	},
+	"ltail": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			""
+		],
+		"title": "ltail",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/ltail.md",
+		"description": "Logical tail of an edge",
+		"types": [
+			"string"
+		]
+	},
+	"dpi": {
+		"flags": [
+			"bitmap output",
+			"svg"
+		],
+		"defaults": [
+			96,
+			0
+		],
+		"title": "dpi",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/dpi.md",
+		"description": "Specifies the expected number of pixels per inch on a display device",
+		"types": [
+			"float"
+		]
+	},
+	"imagepath": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "imagepath",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/imagepath.md",
+		"description": "A list of directories in which to look for image files",
+		"types": [
+			"string"
+		]
+	},
+	"normalize": {
+		"flags": [
+			"neato",
+			"fdp",
+			"sfdp",
+			"twopi",
+			"circo"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "normalize",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/normalize.md",
+		"description": "normalizes coordinates of final layout",
+		"types": [
+			"float",
+			"boolean"
+		]
+	},
+	"labelfloat": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "labelfloat",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelfloat.md",
+		"description": "If true, allows edge labels to be less constrained in position",
+		"types": [
+			"boolean"
+		]
+	},
+	"layersep": {
+		"flags": [],
+		"defaults": [
+			"\":\t \""
+		],
+		"title": "layersep",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/layersep.md",
+		"description": "The separator characters for splitting the layers attribute into a list of layer names.",
+		"types": [
+			"string"
+		]
+	},
+	"concentrate": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "concentrate",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/concentrate.md",
+		"description": "If true, use edge concentrators",
+		"types": [
+			"boolean"
+		]
+	},
+	"tailhref": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "tailhref",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tailhref.md",
+		"description": "Synonym for tailURL.",
+		"types": [
+			"escString"
+		]
+	},
+	"regular": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "regular",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/regular.md",
+		"description": "If true, force polygon to be regular.",
+		"types": [
+			"boolean"
+		]
+	},
+	"root": {
+		"flags": [
+			"twopi",
+			"circo"
+		],
+		"defaults": [
+			{
+				"default": "<none>",
+				"for": "(graphs)"
+			},
+			{
+				"default": "false",
+				"for": "(nodes)"
+			}
+		],
+		"title": "root",
+		"used_by": [
+			"graph",
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/root.md",
+		"description": "Specifies nodes to be used as the center of the layout",
+		"types": [
+			"string",
+			"boolean"
+		]
+	},
+	"labeltarget": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "labeltarget",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labeltarget.md",
+		"description": "Browser window to open labelURL links in",
+		"types": [
+			"escString"
+		]
+	},
+	"voro_margin": {
+		"flags": [
+			"neato",
+			"fdp",
+			"sfdp",
+			"twopi",
+			"circo"
+		],
+		"defaults": [
+			0.05
+		],
+		"title": "voro_margin",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/voro_margin.md",
+		"description": "Tuning margin of Voronoi technique",
+		"types": [
+			"float"
+		]
+	},
+	"labelfontcolor": {
+		"flags": [],
+		"defaults": [
+			"black"
+		],
+		"title": "labelfontcolor",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelfontcolor.md",
+		"description": "Color used for headlabel and taillabel.",
+		"types": [
+			"color"
+		]
+	},
+	"arrowhead": {
+		"flags": [],
+		"defaults": [
+			"normal"
+		],
+		"title": "arrowhead",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/arrowhead.md",
+		"description": "Style of arrowhead on the head node of an edge",
+		"types": [
+			"arrowType"
+		]
+	},
+	"headclip": {
+		"flags": [],
+		"defaults": [
+			"true"
+		],
+		"title": "headclip",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headclip.md",
+		"description": "If true, the head of an edge is clipped to the boundary of the head node",
+		"types": [
+			"boolean"
+		]
+	},
+	"style": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "style",
+		"used_by": [
+			"edge",
+			"node",
+			"cluster",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/style.md",
+		"description": "Set style information for components of the graph",
+		"types": [
+			"style"
+		]
+	},
+	"tailtooltip": {
+		"flags": [
+			"cmap",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "tailtooltip",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tailtooltip.md",
+		"description": "Tooltip annotation attached to the tail of an edge",
+		"types": [
+			"escString"
+		]
+	},
+	"labelfontname": {
+		"flags": [],
+		"defaults": [
+			"\"Times-Roman\""
+		],
+		"title": "labelfontname",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelfontname.md",
+		"description": "Font for headlabel and taillabel",
+		"types": [
+			"string"
+		]
+	},
+	"labeljust": {
+		"flags": [],
+		"defaults": [
+			"\"c\""
+		],
+		"title": "labeljust",
+		"used_by": [
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labeljust.md",
+		"description": "Justification for graph & cluster labels",
+		"types": [
+			"string"
+		]
+	},
+	"z": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "z",
+		"used_by": [
+			"node"
+		],
+		"minimums": [
+			"-MAXFLOAT",
+			-1000
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/z.md",
+		"description": "Z-coordinate value for 3D layouts and displays",
+		"types": [
+			"float"
+		]
+	},
+	"xlp": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "xlp",
+		"used_by": [
+			"node",
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/xlp.md",
+		"description": "Position of an exterior label, in points",
+		"types": [
+			"point"
+		]
+	},
+	"xdotversion": {
+		"flags": [
+			"xdot"
+		],
+		"title": "xdotversion",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/xdotversion.md",
+		"description": "Determines the version of xdot used in output",
+		"types": [
+			"string"
+		]
+	},
+	"URL": {
+		"flags": [
+			"map",
+			"postscript",
+			"svg"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "URL",
+		"used_by": [
+			"edge",
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/URL.md",
+		"description": "Hyperlinks incorporated into device-dependent output",
+		"types": [
+			"escString"
+		]
+	},
+	"fontname": {
+		"flags": [],
+		"defaults": [
+			"\"Times-Roman\""
+		],
+		"title": "fontname",
+		"used_by": [
+			"edge",
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fontname.md",
+		"description": "Font used for text",
+		"types": [
+			"string"
+		]
+	},
+	"ranksep": {
+		"flags": [
+			"dot",
+			"twopi"
+		],
+		"defaults": [
+			{
+				"default": 0.5,
+				"for": "(dot)"
+			},
+			{
+				"default": 1,
+				"for": "(twopi)"
+			}
+		],
+		"title": "ranksep",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0.02
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/ranksep.md",
+		"description": "Specifies separation between ranks",
+		"types": [
+			"float",
+			"doubleList"
+		]
+	},
+	"forcelabels": {
+		"flags": [],
+		"defaults": [
+			"true"
+		],
+		"title": "forcelabels",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/forcelabels.md",
+		"description": "Whether to force placement of all xlabels, even if overlapping",
+		"types": [
+			"boolean"
+		]
+	},
+	"outputorder": {
+		"flags": [],
+		"defaults": [
+			"breadthfirst"
+		],
+		"title": "outputorder",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/outputorder.md",
+		"description": "Specify order in which nodes and edges are drawn",
+		"types": [
+			"outputMode"
+		]
+	},
+	"peripheries": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": "<shape default>",
+				"for": "(nodes)"
+			},
+			{
+				"default": 1,
+				"for": "(clusters)"
+			}
+		],
+		"title": "peripheries",
+		"used_by": [
+			"node",
+			"cluster"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/peripheries.md",
+		"description": "Set number of peripheries used in polygonal shapes and cluster boundaries",
+		"types": [
+			"integer"
+		]
+	},
+	"width": {
+		"flags": [],
+		"defaults": [
+			0.75
+		],
+		"title": "width",
+		"used_by": [
+			"node"
+		],
+		"minimums": [
+			0.01
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/width.md",
+		"description": "Width of node, in inches",
+		"types": [
+			"float"
+		]
+	},
+	"fontsize": {
+		"flags": [],
+		"defaults": [
+			14
+		],
+		"title": "fontsize",
+		"used_by": [
+			"edge",
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [
+			1
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fontsize.md",
+		"description": "Font size, in points, used for text",
+		"types": [
+			"float"
+		]
+	},
+	"shapefile": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "shapefile",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/shapefile.md",
+		"description": "A file containing user-supplied node content",
+		"types": [
+			"string"
+		]
+	},
+	"viewport": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "viewport",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/viewport.md",
+		"description": "Clipping window on final drawing",
+		"types": [
+			"viewPort"
+		]
+	},
+	"constraint": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"true"
+		],
+		"title": "constraint",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/constraint.md",
+		"description": "If false, the edge is not used in ranking the nodes",
+		"types": [
+			"boolean"
+		]
+	},
+	"margin": {
+		"flags": [],
+		"defaults": [
+			"<device-dependent>"
+		],
+		"title": "margin",
+		"used_by": [
+			"node",
+			"cluster",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/margin.md",
+		"description": "For graphs, this sets x and y margins of canvas, in inches",
+		"types": [
+			"float",
+			"point"
+		]
+	},
+	"truecolor": {
+		"flags": [
+			"bitmap output"
+		],
+		"title": "truecolor",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/truecolor.md",
+		"description": "Whether internal bitmap rendering relies on a truecolor color model or uses",
+		"types": [
+			"boolean"
+		]
+	},
+	"tooltip": {
+		"flags": [
+			"cmap",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "tooltip",
+		"used_by": [
+			"node",
+			"edge",
+			"cluster",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tooltip.md",
+		"description": "Tooltip (mouse hover text) attached to the node, edge, cluster, or graph",
+		"types": [
+			"escString"
+		]
+	},
+	"pack": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "pack",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/pack.md",
+		"description": "Whether each connected component of the graph should be laid out separately, and then the graphs packed together.",
+		"types": [
+			"boolean",
+			"integer"
+		]
+	},
+	"charset": {
+		"flags": [],
+		"defaults": [
+			"\"UTF-8\""
+		],
+		"title": "charset",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/charset.md",
+		"description": "Character encoding used when interpreting string input as a text label.",
+		"types": [
+			"string"
+		]
+	},
+	"tailtarget": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "tailtarget",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tailtarget.md",
+		"description": "Browser window to use for the tailURL link",
+		"types": [
+			"escString"
+		]
+	},
+	"tailport": {
+		"flags": [],
+		"defaults": [
+			"center"
+		],
+		"title": "tailport",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tailport.md",
+		"description": "Indicates where on the tail node to attach the tail of the edge",
+		"types": [
+			"portPos"
+		]
+	},
+	"taillabel": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "taillabel",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/taillabel.md",
+		"description": "Text label to be placed near tail of edge",
+		"types": [
+			"lblString"
+		]
+	},
+	"tailclip": {
+		"flags": [],
+		"defaults": [
+			"true"
+		],
+		"title": "tailclip",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tailclip.md",
+		"description": "If true, the tail of an edge is clipped to the boundary of the tail node",
+		"types": [
+			"boolean"
+		]
+	},
+	"tail_lp": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "tail_lp",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/tail_lp.md",
+		"description": "Position of an edge's tail label, in points.",
+		"types": [
+			"point"
+		]
+	},
+	"headtooltip": {
+		"flags": [
+			"cmap",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "headtooltip",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headtooltip.md",
+		"description": "Tooltip annotation attached to the head of an edge",
+		"types": [
+			"escString"
+		]
+	},
+	"showboxes": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			0
+		],
+		"title": "showboxes",
+		"used_by": [
+			"edge",
+			"node",
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/showboxes.md",
+		"description": "Print guide boxes for debugging",
+		"types": [
+			"integer"
+		]
+	},
+	"label_scheme": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			0
+		],
+		"title": "label_scheme",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/label_scheme.md",
+		"description": "Whether to treat a node whose name has the form |edgelabel|* as a special node representing an edge label.",
+		"types": [
+			"integer"
+		]
+	},
+	"stylesheet": {
+		"flags": [
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "stylesheet",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/stylesheet.md",
+		"description": "A URL or pathname specifying an XML style sheet, used in SVG output",
+		"types": [
+			"string"
+		]
+	},
+	"labelURL": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "labelURL",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelURL.md",
+		"description": "If defined, labelURL is the link used for the label of an edge",
+		"types": [
+			"escString"
+		]
+	},
+	"pin": {
+		"flags": [
+			"neato",
+			"fdp"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "pin",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/pin.md",
+		"description": "Keeps the node at the node's given input position",
+		"types": [
+			"boolean"
+		]
+	},
+	"splines": {
+		"flags": [],
+		"defaults": [],
+		"title": "splines",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/splines.md",
+		"description": "Controls how, and if, edges are represented",
+		"types": [
+			"boolean",
+			"string"
+		]
+	},
+	"labelloc": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": "\"t\"",
+				"for": "(clusters)"
+			},
+			{
+				"default": "\"b\"",
+				"for": "(root graphs)"
+			},
+			{
+				"default": "\"c\"",
+				"for": "(nodes)"
+			}
+		],
+		"title": "labelloc",
+		"used_by": [
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelloc.md",
+		"description": "Vertical placement of labels for nodes, root graphs and clusters",
+		"types": [
+			"string"
+		]
+	},
+	"colorscheme": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "colorscheme",
+		"used_by": [
+			"edge",
+			"node",
+			"cluster",
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/colorscheme.md",
+		"description": "A color scheme namespace: the context for interpreting color names",
+		"types": [
+			"colorscheme"
+		]
+	},
+	"rankdir": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"TB"
+		],
+		"title": "rankdir",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/rankdir.md",
+		"description": "Sets direction of graph layout",
+		"types": [
+			"rankdir"
+		]
+	},
+	"bgcolor": {
+		"flags": [],
+		"defaults": [
+			"<none>"
+		],
+		"title": "bgcolor",
+		"used_by": [
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/bgcolor.md",
+		"description": "Canvas background color",
+		"types": [
+			"color",
+			"colorList"
+		]
+	},
+	"layout": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "layout",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/layout.md",
+		"description": "Which layout engine to use",
+		"types": [
+			"string"
+		],
+		"values": [
+			"dot" ,
+			"neato",
+			"twopi",
+			"circo",
+			"fdp",
+			"osage",
+			"patchwork",
+			"sfdp"
+		]
+	},
+	"fontnames": {
+		"flags": [
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "fontnames",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fontnames.md",
+		"description": "Allows user control of how basic fontnames are represented in SVG output",
+		"types": [
+			"string"
+		]
+	},
+	"labeltooltip": {
+		"flags": [
+			"cmap",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "labeltooltip",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labeltooltip.md",
+		"description": "Tooltip annotation attached to label of an edge",
+		"types": [
+			"escString"
+		]
+	},
+	"sides": {
+		"flags": [],
+		"defaults": [
+			4
+		],
+		"title": "sides",
+		"used_by": [
+			"node"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/sides.md",
+		"description": "Number of sides when <code>shape=polygon</code>",
+		"types": [
+			"integer"
+		]
+	},
+	"imagescale": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "imagescale",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/imagescale.md",
+		"description": "Controls how an image fills its containing node",
+		"types": [
+			"boolean",
+			"string"
+		]
+	},
+	"pad": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": 0.0555,
+				"suffix": "(4 points)"
+			}
+		],
+		"title": "pad",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/pad.md",
+		"description": "Inches to extend the drawing area around the minimal area needed to draw the graph",
+		"types": [
+			"float",
+			"point"
+		]
+	},
+	"levels": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			"INT_MAX"
+		],
+		"title": "levels",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/levels.md",
+		"description": "Number of levels allowed in the multilevel scheme",
+		"types": [
+			"integer"
+		]
+	},
+	"center": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "center",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/center.md",
+		"description": "Whether to center the drawing in the output canvas",
+		"types": [
+			"boolean"
+		]
+	},
+	"weight": {
+		"flags": [],
+		"defaults": [
+			1
+		],
+		"title": "weight",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [
+			"0(dot,twopi)",
+			"1(neato,fdp)"
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/weight.md",
+		"description": "Weight of edge",
+		"types": [
+			"integer",
+			"float"
+		]
+	},
+	"defaultdist": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			"1+(avg. len)*sqrt(|V|)"
+		],
+		"title": "defaultdist",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			"epsilon"
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/defaultdist.md",
+		"description": "The distance between nodes in separate connected components",
+		"types": [
+			"float"
+		]
+	},
+	"background": {
+		"flags": [],
+		"defaults": [
+			"<none>"
+		],
+		"title": "_background",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/background.md",
+		"description": "A string in the xdot format specifying an arbitrary background",
+		"types": [
+			"xdot"
+		]
+	},
+	"shape": {
+		"flags": [],
+		"defaults": [
+			"ellipse"
+		],
+		"title": "shape",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/shape.md",
+		"description": "Sets the shape of a node",
+		"types": [
+			"shape"
+		]
+	},
+	"scale": {
+		"flags": [
+			"neato",
+			"twopi"
+		],
+		"defaults": [],
+		"title": "scale",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/scale.md",
+		"description": "Scales layout by the given factor after the initial layout",
+		"types": [
+			"float",
+			"point"
+		]
+	},
+	"samplepoints": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": 8,
+				"for": "(output)"
+			},
+			{
+				"default": 20,
+				"for": "(overlap and image maps)"
+			}
+		],
+		"title": "samplepoints",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/samplepoints.md",
+		"description": "Gives the number of points used for a circle/ellipse node",
+		"types": [
+			"integer"
+		]
+	},
+	"epsilon": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			{
+				"default": ".0001 * # nodes",
+				"for": "(mode == KK)"
+			},
+			{
+				"default": 0.0001,
+				"for": "(mode == major)"
+			},
+			{
+				"default": 0.01,
+				"for": "(mode == sgd)"
+			}
+		],
+		"title": "epsilon",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/epsilon.md",
+		"description": "Terminating condition",
+		"types": [
+			"float"
+		]
+	},
+	"sametail": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			""
+		],
+		"title": "sametail",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/sametail.md",
+		"description": "Edges with the same tail and the same sametail value are aimed at the same point on the tail.",
+		"types": [
+			"string"
+		]
+	},
+	"headhref": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "headhref",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headhref.md",
+		"description": "Synonym for headURL",
+		"types": [
+			"escString"
+		]
+	},
+	"quantum": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "quantum",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/quantum.md",
+		"description": "If quantum > 0.0, node label dimensions will be rounded to integral multiples of the quantum",
+		"types": [
+			"float"
+		]
+	},
+	"remincross": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"true"
+		],
+		"title": "remincross",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/remincross.md",
+		"description": "If there are multiple clusters, whether to run edge crossing minimization a second time.",
+		"types": [
+			"boolean"
+		]
+	},
+	"edgetarget": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			"<none>"
+		],
+		"title": "edgetarget",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/edgetarget.md",
+		"description": "Browser window to use for the edgeURL link",
+		"types": [
+			"escString"
+		]
+	},
+	"ratio": {
+		"flags": [],
+		"defaults": [],
+		"title": "ratio",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/ratio.md",
+		"description": "Sets the aspect ratio (drawing height/drawing width) for the drawing",
+		"types": [
+			"float",
+			"string"
+		]
+	},
+	"vertices": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "vertices",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/vertices.md",
+		"description": "Sets the coordinates of the vertices of the node's polygon, in inches",
+		"types": [
+			"pointList"
+		]
+	},
+	"headlabel": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "headlabel",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/headlabel.md",
+		"description": "Text label to be placed near head of edge",
+		"types": [
+			"lblString"
+		]
+	},
+	"dim": {
+		"flags": [
+			"neato",
+			"fdp",
+			"sfdp"
+		],
+		"defaults": [
+			2
+		],
+		"title": "dim",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			2
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/dim.md",
+		"description": "Set the number of dimensions used for the layout",
+		"types": [
+			"integer"
+		]
+	},
+	"model": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			"shortpath"
+		],
+		"title": "model",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/model.md",
+		"description": "Specifies how the distance matrix is computed for the input graph",
+		"types": [
+			"string"
+		]
+	},
+	"gradientangle": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "gradientangle",
+		"used_by": [
+			"node",
+			"cluster",
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/gradientangle.md",
+		"description": "If a gradient fill is being used, this determines the angle of the fill",
+		"types": [
+			"integer"
+		]
+	},
+	"rotate": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "rotate",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/rotate.md",
+		"description": "If rotate=90, sets drawing orientation to landscape",
+		"types": [
+			"integer"
+		]
+	},
+	"rank": {
+		"flags": [
+			"dot"
+		],
+		"title": "rank",
+		"used_by": [],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/rank.md",
+		"description": "Rank constraints on the nodes in a subgraph",
+		"types": [
+			"rankType"
+		]
+	},
+	"notranslate": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "notranslate",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/notranslate.md",
+		"description": "Whether to avoid translating layout to the origin point",
+		"types": [
+			"boolean"
+		]
+	},
+	"len": {
+		"flags": [
+			"neato",
+			"fdp"
+		],
+		"defaults": [
+			{
+				"default": 1,
+				"for": "(neato)"
+			},
+			{
+				"default": 0.3,
+				"for": "(fdp)"
+			}
+		],
+		"title": "len",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/len.md",
+		"description": "Preferred edge length, in inches",
+		"types": [
+			"float"
+		]
+	},
+	"quadtree": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			"normal"
+		],
+		"title": "quadtree",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/quadtree.md",
+		"description": "Quadtree scheme to use",
+		"types": [
+			"quadType",
+			"boolean"
+		]
+	},
+	"sortv": {
+		"flags": [],
+		"defaults": [
+			0
+		],
+		"title": "sortv",
+		"used_by": [
+			"graph",
+			"cluster",
+			"node"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/sortv.md",
+		"description": "Sort order of graph components for ordering packmode packing.",
+		"types": [
+			"integer"
+		]
+	},
+	"label": {
+		"flags": [],
+		"defaults": [
+			{
+				"default": "\\N",
+				"for": "(nodes)"
+			},
+			{
+				"default": "",
+				"for": "(otherwise)"
+			}
+		],
+		"title": "label",
+		"used_by": [
+			"edge",
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/label.md",
+		"description": "Text label attached to objects",
+		"types": [
+			"lblString"
+		]
+	},
+	"group": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			""
+		],
+		"title": "group",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/group.md",
+		"description": "Name for a group of nodes, for bundling edges avoiding crossings.",
+		"types": [
+			"string"
+		]
+	},
+	"diredgeconstraints": {
+		"flags": [
+			"neato"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "diredgeconstraints",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/diredgeconstraints.md",
+		"description": "Whether to constrain most edges to point downwards",
+		"types": [
+			"string",
+			"boolean"
+		]
+	},
+	"fixedsize": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "fixedsize",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fixedsize.md",
+		"description": "Whether to use the specified width and height attributes to choose node size (rather than sizing to fit the node contents)",
+		"types": [
+			"boolean",
+			"string"
+		]
+	},
+	"arrowtail": {
+		"flags": [],
+		"defaults": [
+			"normal"
+		],
+		"title": "arrowtail",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/arrowtail.md",
+		"description": "Style of arrowhead on the tail node of an edge",
+		"types": [
+			"arrowType"
+		]
+	},
+	"layerselect": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "layerselect",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/layerselect.md",
+		"description": "Selects a list of layers to be emitted",
+		"types": [
+			"layerRange"
+		]
+	},
+	"pencolor": {
+		"flags": [],
+		"defaults": [
+			"black"
+		],
+		"title": "pencolor",
+		"used_by": [
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/pencolor.md",
+		"description": "Color used to draw the bounding box around a cluster",
+		"types": [
+			"color"
+		]
+	},
+	"labelhref": {
+		"flags": [
+			"map",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "labelhref",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelhref.md",
+		"description": "Synonym for labelURL",
+		"types": [
+			"escString"
+		]
+	},
+	"edgetooltip": {
+		"flags": [
+			"cmap",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "edgetooltip",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/edgetooltip.md",
+		"description": "Tooltip annotation attached to the non-label part of an edge",
+		"types": [
+			"escString"
+		]
+	},
+	"labelfontsize": {
+		"flags": [],
+		"defaults": [
+			14
+		],
+		"title": "labelfontsize",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [
+			1
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/labelfontsize.md",
+		"description": "Font size of headlabel and taillabel",
+		"types": [
+			"float"
+		]
+	},
+	"head_lp": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "head_lp",
+		"used_by": [
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/head_lp.md",
+		"description": "Center position of an edge's head label",
+		"types": [
+			"point"
+		]
+	},
+	"nojustify": {
+		"flags": [],
+		"defaults": [
+			"false"
+		],
+		"title": "nojustify",
+		"used_by": [
+			"graph",
+			"cluster",
+			"node",
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/nojustify.md",
+		"description": "Whether to justify multiline text vs the previous text line (rather than the side of the container).",
+		"types": [
+			"boolean"
+		]
+	},
+	"packmode": {
+		"flags": [],
+		"defaults": [
+			"node"
+		],
+		"title": "packmode",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/packmode.md",
+		"description": "How connected components should be packed",
+		"types": [
+			"packMode"
+		]
+	},
+	"nslimit": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [],
+		"title": "nslimit",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/nslimit.md",
+		"description": "Sets number of iterations in network simplex applications",
+		"types": [
+			"float"
+		]
+	},
+	"fontcolor": {
+		"flags": [],
+		"defaults": [
+			"black"
+		],
+		"title": "fontcolor",
+		"used_by": [
+			"edge",
+			"node",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/fontcolor.md",
+		"description": "Color used for text",
+		"types": [
+			"color"
+		]
+	},
+	"lp": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "lp",
+		"used_by": [
+			"edge",
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/lp.md",
+		"description": "Label center position",
+		"types": [
+			"point"
+		]
+	},
+	"nslimit1": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [],
+		"title": "nslimit1",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/nslimit1.md",
+		"description": "Sets number of iterations in network simplex applications",
+		"types": [
+			"float"
+		]
+	},
+	"id": {
+		"flags": [
+			"map",
+			"postscript",
+			"svg"
+		],
+		"defaults": [
+			""
+		],
+		"title": "id",
+		"used_by": [
+			"graph",
+			"cluster",
+			"node",
+			"edge"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/id.md",
+		"description": "Identifier for graph objects",
+		"types": [
+			"escString"
+		]
+	},
+	"layer": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "layer",
+		"used_by": [
+			"edge",
+			"node",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/layer.md",
+		"description": "Specifies layers in which the node, edge or cluster is present",
+		"types": [
+			"layerRange"
+		]
+	},
+	"page": {
+		"flags": [],
+		"defaults": [],
+		"title": "page",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/page.md",
+		"description": "Width and height of output pages, in inches",
+		"types": [
+			"float",
+			"point"
+		]
+	},
+	"smoothing": {
+		"flags": [
+			"sfdp"
+		],
+		"defaults": [
+			"\"none\""
+		],
+		"title": "smoothing",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/smoothing.md",
+		"description": "Specifies a post-processing step used to smooth out an uneven distribution of nodes.",
+		"types": [
+			"smoothType"
+		]
+	},
+	"layerlistsep": {
+		"flags": [],
+		"defaults": [
+			"\",\""
+		],
+		"title": "layerlistsep",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/layerlistsep.md",
+		"description": "The separator characters used to split attributes of type layerRange into a list of ranges.",
+		"types": [
+			"string"
+		]
+	},
+	"newrank": {
+		"flags": [
+			"dot"
+		],
+		"defaults": [
+			"false"
+		],
+		"title": "newrank",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/newrank.md",
+		"description": "Whether to use a single global ranking, ignoring clusters",
+		"types": [
+			"boolean"
+		]
+	},
+	"image": {
+		"flags": [],
+		"defaults": [
+			""
+		],
+		"title": "image",
+		"used_by": [
+			"node"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/image.md",
+		"description": "Gives the name of a file containing an image to be displayed inside a node",
+		"types": [
+			"string"
+		]
+	},
+	"maxiter": {
+		"flags": [
+			"neato",
+			"fdp"
+		],
+		"defaults": [
+			{
+				"default": "100 * # nodes",
+				"for": "(mode == KK)"
+			},
+			{
+				"default": 200,
+				"for": "(mode == major)"
+			},
+			{
+				"default": 30,
+				"for": "(mode == sgd)"
+			},
+			{
+				"default": 600,
+				"for": "(fdp)"
+			}
+		],
+		"title": "maxiter",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/maxiter.md",
+		"description": "Sets the number of iterations used",
+		"types": [
+			"integer"
+		]
+	},
+	"start": {
+		"flags": [
+			"neato",
+			"fdp",
+			"sfdp"
+		],
+		"defaults": [
+			""
+		],
+		"title": "start",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/start.md",
+		"description": "Parameter used to determine the initial layout of nodes",
+		"types": [
+			"startType"
+		]
+	},
+	"mindist": {
+		"flags": [
+			"circo"
+		],
+		"defaults": [
+			1
+		],
+		"title": "mindist",
+		"used_by": [
+			"graph"
+		],
+		"minimums": [
+			0
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/mindist.md",
+		"description": "Specifies the minimum separation between all nodes",
+		"types": [
+			"float"
+		]
+	},
+	"height": {
+		"flags": [],
+		"defaults": [
+			0.5
+		],
+		"title": "height",
+		"used_by": [
+			"node"
+		],
+		"minimums": [
+			0.02
+		],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/height.md",
+		"description": "Height of node, in inches",
+		"types": [
+			"float"
+		]
+	},
+	"lwidth": {
+		"flags": [
+			"write"
+		],
+		"defaults": [],
+		"title": "lwidth",
+		"used_by": [
+			"graph",
+			"cluster"
+		],
+		"minimums": [],
+		"url": "https://gitlab.com/graphviz/graphviz.gitlab.io/-/blob/main/content/en/docs/attrs/lwidth.md",
+		"description": "Width of graph or cluster label, in inches",
+		"types": [
+			"float"
+		]
+	}
+}

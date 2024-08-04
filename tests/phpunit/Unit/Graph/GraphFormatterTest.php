@@ -3,8 +3,9 @@
 namespace SRF\Tests\Unit\Formats;
 
 use SRF\Graph\GraphFormatter;
-use SRF\Graph\GraphNode;
 use SRF\Graph\GraphOptions;
+
+// php ../../tests/phpunit/phpunit.php tests/phpunit/Unit/Graph/GraphFormatterTest.php
 
 /**
  * @covers \SRF\Graph\GraphFormatter
@@ -15,12 +16,388 @@ use SRF\Graph\GraphOptions;
  * @author Sebastian Schmid (gesinn.it)
  */
 class GraphFormatterTest extends \PHPUnit\Framework\TestCase {
+	const PRINTOUTS = [
+		'2:::component|filled|yellow' =>
+			[
+				'main column' => true,
+				'type' => '_wpg',
+				'is page' => true,
+				'label for' => null,
+				'chain' => '',
+				'node attrs' =>
+					[
+						'shape' => 'component',
+						'style' => 'filled',
+						'fillcolor' => 'yellow',
+						'color' => 'black',
+						'fontcolor' => 'black',
+					],
+				'edge attrs' =>
+					[
+						'style' => 'filled',
+						'fillcolor' => 'yellow',
+						'label' => '',
+						'URL' => '[[Свойство:]]',
+						'color' => 'black',
+						'fontcolor' => 'black',
+					],
+				'nodes' =>
+					[
+						'Semantic MediaWiki' =>
+							[
+								'label' => 'Semantic MediaWiki',
+								'fields' =>
+									[
+										'Has abbreviation' =>
+											[
+												'label' => 'Abbreviation',
+												'type' => '_txt',
+												'align' => 'left',
+												'values' =>
+													[
+														0 =>
+															[
+																'text' => 'SMW',
+															],
+													],
+												'href' => '[[Свойство:Has abbreviation]]',
+											],
+										'Has version' =>
+											[
+												'label' => 'Version',
+												'type' => '_txt',
+												'align' => 'left',
+												'values' =>
+													[
+														0 =>
+															[
+																'text' => '4.1.3',
+															],
+													],
+												'href' => '[[Свойство:Has version]]',
+											],
+									],
+							],
+						'Semantic Result Formats' =>
+							[
+								'label' => 'Semantic Result Formats',
+								'fields' =>
+									[
+										'Has abbreviation' =>
+											[
+												'label' => 'Abbreviation',
+												'type' => '_txt',
+												'align' => 'left',
+												'values' =>
+													[
+														0 =>
+															[
+																'text' => 'SRF',
+															],
+													],
+												'href' => '[[Свойство:Has abbreviation]]',
+											],
+										'Has version' =>
+											[
+												'label' => 'Version',
+												'type' => '_txt',
+												'align' => 'left',
+												'values' =>
+													[
+														0 =>
+															[
+																'text' => '4.2.1',
+															],
+													],
+												'href' => '[[Свойство:Has version]]',
+											],
+									],
+							],
+					],
+				'edges' =>
+					[
+					],
+				'is node' => true,
+				'parent' => '',
+			],
+		'1:Abbreviation:Has_abbreviation::' =>
+			[
+				'main column' => false,
+				'type' => '_txt',
+				'is page' => false,
+				'label for' => null,
+				'chain' => 'Has abbreviation',
+				'node attrs' =>
+					[
+						'color' => 'red',
+						'fontcolor' => 'red',
+					],
+				'edge attrs' =>
+					[
+						'label' => 'Abbreviation',
+						'URL' => '[[Свойство:Has abbreviation]]',
+						'color' => 'red',
+						'fontcolor' => 'red',
+					],
+				'nodes' =>
+					[
+					],
+				'edges' =>
+					[
+					],
+				'is node' => false,
+				'parent' => '',
+			],
+		'1:Author:Has_author::signature|filled|lightblue' =>
+			[
+				'main column' => false,
+				'type' => '_wpg',
+				'is page' => true,
+				'label for' => null,
+				'chain' => 'Has author',
+				'node attrs' =>
+					[
+						'shape' => 'signature',
+						'style' => 'filled',
+						'fillcolor' => 'lightblue',
+						'color' => 'green',
+						'fontcolor' => 'green',
+					],
+				'edge attrs' =>
+					[
+						'style' => 'filled',
+						'label' => 'Author',
+						'URL' => '[[Свойство:Has author]]',
+						'color' => 'green',
+						'fontcolor' => 'green',
+					],
+				'nodes' =>
+					[
+						'Jeroen De Dauw' =>
+							[
+								'label' => 'Jeroen De Dauw',
+								'fields' =>
+									[
+										'Has author.Attachment link' =>
+											[
+												'label' => '',
+												'type' => '_wpg',
+												'align' => 'left',
+												'values' =>
+													[
+														0 =>
+															[
+																'url' => '[[Файл:Duck.jpg]]',
+																'image' => '[[Файл:Duck.jpg|width=120]]',
+																'text' => 'Файл:Duck.jpg',
+															],
+														1 =>
+															[
+																'url' => '[[Файл:Markus-Kroetzsch-2014.jpg]]',
+																'image' => '[[Файл:Markus-Kroetzsch-2014.jpg|width=120]]',
+																'text' => 'Файл:Markus-Kroetzsch-2014.jpg',
+															],
+													],
+												'href' => '[[Свойство:Attachment link]]',
+											],
+									],
+							],
+						'James Hong Kong' =>
+							[
+								'label' => 'James Hong Kong',
+								'fields' =>
+									[
+									],
+							],
+						'Yaron Koren' =>
+							[
+								'label' => 'Yaron Koren',
+								'fields' =>
+									[
+									],
+							],
+						'Markus Krötzsch' =>
+							[
+								'label' => 'Markus Krötzsch',
+								'fields' =>
+									[
+									],
+							],
+						'Denny Vrandečić' =>
+							[
+								'label' => 'Denny Vrandečić',
+								'fields' =>
+									[
+									],
+							],
+						'Klaus Lassleben' =>
+							[
+								'label' => 'Klaus Lassleben',
+								'fields' =>
+									[
+									],
+							],
+						'Stephan Gambke' =>
+							[
+								'label' => 'Stephan Gambke',
+								'fields' =>
+									[
+									],
+							],
+					],
+				'edges' =>
+					[
+						0 =>
+							[
+								0 => 'Semantic MediaWiki',
+								1 => 'Jeroen De Dauw',
+							],
+						1 =>
+							[
+								0 => 'Semantic MediaWiki',
+								1 => 'James Hong Kong',
+							],
+						2 =>
+							[
+								0 => 'Semantic MediaWiki',
+								1 => 'Yaron Koren',
+							],
+						3 =>
+							[
+								0 => 'Semantic MediaWiki',
+								1 => 'Markus Krötzsch',
+							],
+						4 =>
+							[
+								0 => 'Semantic MediaWiki',
+								1 => 'Denny Vrandečić',
+							],
+						5 =>
+							[
+								0 => 'Semantic MediaWiki',
+								1 => 'Klaus Lassleben',
+							],
+						6 =>
+							[
+								0 => 'Semantic Result Formats',
+								1 => 'Jeroen De Dauw',
+							],
+						7 =>
+							[
+								0 => 'Semantic Result Formats',
+								1 => 'James Hong Kong',
+							],
+						8 =>
+							[
+								0 => 'Semantic Result Formats',
+								1 => 'Stephan Gambke',
+							],
+						9 =>
+							[
+								0 => 'Semantic Result Formats',
+								1 => 'Yaron Koren',
+							],
+					],
+				'is node' => true,
+				'parent' => '',
+			],
+		'1:Version:Has_version::field' =>
+			[
+				'main column' => false,
+				'type' => '_txt',
+				'is page' => false,
+				'label for' => null,
+				'chain' => 'Has version',
+				'node attrs' =>
+					[
+						'color' => 'blue',
+						'fontcolor' => 'blue',
+					],
+				'edge attrs' =>
+					[
+						'label' => 'Version',
+						'URL' => '[[Свойство:Has version]]',
+						'color' => 'blue',
+						'fontcolor' => 'blue',
+					],
+				'nodes' =>
+					[
+					],
+				'edges' =>
+					[
+					],
+				'is node' => false,
+				'parent' => '',
+			],
+		'4::Has author.Attachment link::field|120px' =>
+			[
+				'main column' => false,
+				'type' => '_wpg',
+				'is page' => false,
+				'label for' => null,
+				'chain' => 'Has author.Attachment link',
+				'node attrs' =>
+					[
+						'imagewidth' => '120px',
+						'color' => 'darkviolet',
+						'fontcolor' => 'darkviolet',
+					],
+				'edge attrs' =>
+					[
+						'imagewidth' => '120px',
+						'label' => '',
+						'URL' => '[[Свойство:Attachment link]]',
+						'color' => 'darkviolet',
+						'fontcolor' => 'darkviolet',
+					],
+				'nodes' =>
+					[
+					],
+				'edges' =>
+					[
+					],
+				'is node' => false,
+				'parent' => 'Has author',
+			],
+		'1:Requires:Requires::' =>
+			[
+				'main column' => false,
+				'type' => '_wpg',
+				'is page' => true,
+				'label for' => null,
+				'chain' => 'Requires',
+				'node attrs' =>
+					[
+						'color' => 'gold',
+						'fontcolor' => 'gold',
+					],
+				'edge attrs' =>
+					[
+						'label' => 'Requires',
+						'URL' => '[[Свойство:Requires]]',
+						'color' => 'gold',
+						'fontcolor' => 'gold',
+					],
+				'nodes' =>
+					[
+					],
+				'edges' =>
+					[
+						0 =>
+							[
+								0 => 'Semantic Result Formats',
+								1 => 'Semantic MediaWiki',
+							],
+					],
+				'is node' => true,
+				'parent' => '',
+			],
+	];
 
-	/** @var array An array of test cases. */
+	/** @var array $cases An array of test cases. */
 	private $cases = [
 		'Simple' => [
-			// @see https://www.semantic-mediawiki.org/wiki/Help:Graph_format
-			'params' => [ 'graphfields' => false ],
+			'params' => [ 'graphfields' => false ], // @see https://www.semantic-mediawiki.org/wiki/Help:Graph_format
 			'nodes' => [
 				[ 'name' => 'Team:Alpha', 'label' => 'Alpha', 'parents' => [
 					[ 'predicate' => 'Casted', 'object' => 'Person:Alexander Gesinn' ]
@@ -50,8 +427,7 @@ size="100";node [shape=rect];rankdir=LR;
 SIMPLE
 		],
 		'With fields' => [
-			// @see https://www.semantic-mediawiki.org/wiki/Help:Graph_format
-			'params' => [ 'graphfields' => true ],
+			'params' => [ 'graphfields' => true ], // @see https://www.semantic-mediawiki.org/wiki/Help:Graph_format
 			'nodes' => [
 				[ 'name' => 'Team:Alpha', 'label' => 'Alpha', 'parents' => [
 					[ 'predicate' => 'Casted', 'object' => 'Person:Alexander Gesinn' ]
@@ -116,18 +492,19 @@ FIELDS
 
 	/**
 	 * Create a complete graph for the test case.
-	 * @param array $case
+	 *
 	 * @return GraphFormatter
+	 * @var array $case
 	 */
 	private static function graph( array $case ): GraphFormatter {
-		$graph = new GraphFormatter( new GraphOptions( self::BASE_PARAMS + $case['params'] ) );
+		$graph = new GraphFormatter( new GraphOptions( GraphFormatterTest::BASE_PARAMS + $case['params'] ) );
 		$nodes = [];
 		foreach ( $case['nodes'] as $node ) {
 			$graph_node = new GraphNode( $node['name'] );
 			$graph_node->setLabel( $node['label'] );
 			if ( isset( $node['parents'] ) ) {
 				foreach ( $node['parents'] as $parent ) {
-					$graph_node->addParentNode( $parent['predicate'], $parent['object'] );
+					//$graph_node->addParentNode( $parent['predicate'], $parent['object'] );
 				}
 			}
 			if ( isset( $node['fields'] ) ) {
@@ -153,7 +530,7 @@ FIELDS
 	}
 
 	/**
-	 * @covers \SRF\Graph\GraphFormatter::__construct()
+	 * @covers       GraphFormatter::__construct()
 	 * @dataProvider provideCanConstruct
 	 * @param array $params
 	 * @return void
@@ -183,7 +560,7 @@ WRAPPED0
 	}
 
 	/**
-	 * @covers \SRF\Graph\GraphFormatter::getWordWrappedText()
+	 * @covers       GraphFormatter::getWordWrappedText()
 	 * @dataProvider provideGetWordWrappedText
 	 * @param string $unwrapped
 	 * @param string $wrapped
@@ -191,7 +568,7 @@ WRAPPED0
 	 */
 	public function testGetWordWrappedText( $unwrapped, $wrapped ) {
 		$formatter = new GraphFormatter(
-			new GraphOptions( self::BASE_PARAMS + [ 'graphfields' => false ] )
+			new GraphOptions( GraphFormatterTest::BASE_PARAMS + [ 'graphfields' => false ] )
 		);
 		$this->assertEquals( $wrapped, $formatter->getWordWrappedText( $unwrapped, 10 ) );
 	}
@@ -208,7 +585,7 @@ WRAPPED0
 	}
 
 	/**
-	 * @covers \SRF\Graph\GraphFormatter::getGraphLegend()
+	 * @covers       GraphFormatter::getGraphLegend()
 	 * @dataProvider provideGetGraphLegend
 	 * @param array $params
 	 * @param string $expected The expected legend.
@@ -230,7 +607,7 @@ WRAPPED0
 	}
 
 	/**
-	 * @covers \SRF\Graph\GraphFormatter::buildGraph()
+	 * @covers       GraphFormatter::buildGraph()
 	 * @dataProvider provideBuildGraph
 	 * @param array $params
 	 * @param string $expected The expected DOT code.

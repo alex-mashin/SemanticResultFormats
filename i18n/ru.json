@@ -191,12 +191,15 @@
 	"srf_paramdesc_hashname": "Если указано, и доступно расширение Hash Tables, это создаст хэш поданному названием (ни видимого выхода)",
 	"srf-printername-graph": "График",
 	"srf-paramdesc-graph-relation": "Определяет, являются ли предметы или свойства названий родительскими или дочерними",
+	"srf-paramdesc-graphlayout": "Устанавливает механизм отрисовки графа для graphviz",
 	"srf-paramdesc-graph-nodeshape": "Устанавливает форму каждого узла графа",
 	"srf-paramdesc-graph-arrowhead": "Устанавливает стиль стрелки головного узла крайнего элемента",
 	"srf-paramdesc-graphname": "Устанавливает заголовок графа",
 	"srf-paramdesc-graphsize": "Устанавливает размер графа (в пикселях)",
 	"srf-paramdesc-graphlegend": "Определяет, следует ли показывать легенду",
-	"srf-paramdesc-graphlabel": "Устанавливает размер шрифта в пикселях",
+	"srf-paramdesc-dotlegend": "Определяет, следует ли показывать легенду, сгенерированную GraphViz",
+	"srf-paramdesc-graphlabel": "Устанавливает метку графа",
+	"srf-paramdesc-graphfontsize": "Устанавливает размер шрифта в пикселях",
 	"srf-paramdesc-rankdir": "Устанавливает направление стрелок",
 	"srf-paramdesc-graphlink": "Определяет, должны ли узлы ссылаться на их вики-страницы",
 	"srf-paramdesc-graphcolor": "Устанавливает цвет графа",
@@ -341,7 +344,7 @@
 	"srf-spreadsheet-link": "Таблица",
 	"srf-paramdesc-spreadsheet-filename": "Имя файла при скачивании сгенерированной электронной таблицы",
 	"srf-paramdesc-spreadsheet-templatefile": "Название файла таблицы из пространства имён «Файл», используемого для форматирования создаваемого файла",
-	"srf-paramdesc-icalendar-timezone": "Список часовых поясов, разделённых запятыми",
+	"srf-paramdesc-icalendar-timezone": "Список часовых поясов, разделённый запятыми",
 	"srf-paramdesc-gantt-diagramtitle": "Имя диаграммы",
 	"srf-paramdesc-gantt-diagramtheme": "Тема диаграммы",
 	"srf-paramdesc-gantt-axisformat": "Ось x: Формат даты",
@@ -352,5 +355,6 @@
 	"srf-error-gantt-mermaid-not-installed": "Расширение Mermaid должно быть установлено.",
 	"srf-printername-gantt": "Диаграмма Ганта",
 	"srf-paramdesc-graphfields": "Отображать свойста не типа «Страница» внутри вершин графа, а не в виде его рёбер.",
-	"srf-printername-mode": "Режим"
+	"srf-printername-mode": "Режим",
+	"srf-paramdesc-graphfoblique": "По возможности, начинать рёбра и показывать поля на владеющих узлах."
 }
