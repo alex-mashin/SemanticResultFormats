@@ -50,12 +50,6 @@ class GraphPrinter extends ResultPrinter {
 	/** @var GraphOptions $options Graph options. */
 	private $options;
 
-	/** @var array $map Map property chains to printout request hashes to distribute fields over owner nodes. */
-	private $map = [];
-
-	/** @var array[] $nodes A common pool of nodes used to merge nodes created by different printouts. */
-	private $nodes = [];
-
 	/**
 	 * @see SMWResultPrinter::handleParameters()
 	 */
@@ -112,12 +106,13 @@ class GraphPrinter extends ResultPrinter {
 	/**
 	 * @param array $printouts
 	 * @param array $rows
+	 * @param bool $links
 	 * @return array
 	 */
-	private function rowsToNodesAndEdges( array $printouts, array $rows ): array {
+	private static function rowsToNodesAndEdges( array $printouts, array $rows, bool $links ): array {
 		$all_nodes = [];
 		foreach ( $rows as $row ) {
-			[ $nodes, $edges ] = $this->rowToNodesAndEdges( $printouts, $row );
+			[ $nodes, $edges ] = self::rowToNodesAndEdges( $printouts, $row, $links );
 			// @TODO: extract.
 			foreach ( $nodes as $hash => $group ) {
 				foreach ( $group as $id => $node ) {
@@ -142,9 +137,9 @@ class GraphPrinter extends ResultPrinter {
 	 * @param int $mode
 	 * @return string
 	 */
-	public function buildGraph( array $printouts, array $rows, GraphOptions $options, int $mode ): string {
+	public static function buildGraph( array $printouts, array $rows, GraphOptions $options, int $mode ): string {
 		// Regroup rows of nodes and edges into printouts (future subgraphs).
-		$printouts = $this->rowsToNodesAndEdges( $printouts, $rows );
+		$printouts = self::rowsToNodesAndEdges( $printouts, $rows, $options->isGraphLink() );
 
 		// Use GraphFormatter to build the graph.
 		$graphFormatter = new GraphFormatter( $options );
@@ -191,7 +186,7 @@ class GraphPrinter extends ResultPrinter {
 		}
 
 		// Analyse the printout requests.
-		$printouts = $this->processPrintouts( $res->getPrintRequests() );
+		$printouts = self::processPrintouts( $res->getPrintRequests(), $this->options );
 
 		// Get query result as a 2D-array. Its usage will make the class mockable and testable.
 		$rows = [];
@@ -199,16 +194,17 @@ class GraphPrinter extends ResultPrinter {
 			$rows[] = self::resultRow( $row );
 		}
 
-		return $this->buildGraph( $printouts, $rows, $this->options, $outputMode );
+		return self::buildGraph( $printouts, $rows, $this->options, $outputMode );
 	}
 
 	/**
 	 * Get an array of relevant node or page attributes from a print request.
 	 * @param PrintRequest $request The print request.
 	 * @param string $prefix 'edge' or 'node'.
+	 * @param bool $color Whether to color the graph.
 	 * @return string[] An associative array of parameters.
 	 */
-	private function getOverrides( PrintRequest $request, string $prefix ): array {
+	private static function getOverrides( PrintRequest $request, string $prefix, bool $color ): array {
 		$stripState = MediaWikiServices::getInstance()->getParser()->getStripState();
 		$attrs = [];
 		foreach ( $request->getParameters() as $passed => $value ) {
@@ -220,7 +216,7 @@ class GraphPrinter extends ResultPrinter {
 				$attr === 'imagewidth' || $attr === 'imageheight' || // non-GraphViz parameter for images.
 				in_array( $attr, self::$allowedAttrs[$prefix], true )
 			) {
-				if ( !$this->options->isGraphColor() && strpos( $attr, 'color' ) !== false ) {
+				if ( !$color && strpos( $attr, 'color' ) !== false ) {
 					// Skip all colour-related parameters if colours are not required.
 					continue;
 				}
@@ -233,17 +229,18 @@ class GraphPrinter extends ResultPrinter {
 	/**
 	 * Convert printout attributes to node/field/edge ones.
 	 * @param PrintRequest $request
+	 * @param GraphOptions $options
 	 * @return array
 	 */
-	private function printoutAttributes( PrintRequest $request ): array {
+	private static function printoutAttributes( PrintRequest $request, GraphOptions $options ): array {
 		$canonical = $request->getCanonicalLabel();
 		$properties = explode( '.', $canonical );
 		$last = array_pop( $properties );
 		$prefix = implode( '.', $properties );
 		$label = $request->getLabel();
-		$labels = $this->options->getNodeLabels();
+		$labels = $options->getNodeLabels();
 		$role = $request->getParameter( 'role' );
-		$url = $this->options->isGraphLink()
+		$url = $options->isGraphLink()
 			? '[[' . Localizer::getInstance()->createTextWithNamespacePrefix( SMW_NS_PROPERTY, $last ) . ']]'
 			: null;
 		$attrs = [
@@ -255,21 +252,22 @@ class GraphPrinter extends ResultPrinter {
 			'chain' => $canonical,
 			'hash' => str_replace( '|', ':', $request->getHash() ),
 			'prefix' => $prefix,
-			'node attrs' => $this->getOverrides( $request, 'node' ),
-			'edge attrs' => $this->getOverrides( $request, 'edge' ) + [ 'label' => $label, 'URL' => $url ],
+			'node attrs' => self::getOverrides( $request, 'node', $options->isGraphColor() ),
+			'edge attrs' => self::getOverrides( $request, 'edge', $options->isGraphColor() )
+				+ [ 'label' => $label, 'URL' => $url ],
 			'nodes' => [],
 			'edges' => []
 		];
 		$attrs['chain'] = $attrs['main column'] ? '' : $attrs['chain'];
 		$attrs['is node'] = ( $attrs['is page'] && $role !== 'field' )
 			|| $role === 'node'
-			|| !$this->options->showGraphFields();
+			|| !$options->showGraphFields();
 		// Get colors from GraphViz colour scheme or SRF palette, if it is required and not set.
-		if ( $this->options->isGraphColor() ) {
+		if ( $options->isGraphColor() ) {
 			static $counter = 0;
 			$used = false;
 			foreach ( [ 'node', 'edge' ] as $context ) {
-				$scheme = $this->options->getColorScheme( $context );
+				$scheme = $options->getColorScheme( $context );
 				$color = $scheme === 'SVG' || $scheme === 'X11' ? self::PALETTE[$counter] : $counter + 1;
 				foreach ( [ 'color', 'fontcolor' ] as $attr ) {
 					if ( !isset( $attrs["$context attrs"][$attr] ) ) {
@@ -287,26 +285,32 @@ class GraphPrinter extends ResultPrinter {
 
 	/**
 	 * @param PrintRequest[] $requests All printouts in SMW query
+	 * @param GraphOptions $options
 	 * @return array
 	 */
-	private function processPrintouts( array $requests ): array {
+	private static function processPrintouts( array $requests, GraphOptions $options ): array {
 		$printouts = [];
 		$main = '';
+		$main_hash = '';
+		$map = [];
 		foreach ( $requests as $request ) {
-			$printout = $this->printoutAttributes( $request );
+			$printout = self::printoutAttributes( $request, $options );
 			$hash = $printout['hash'];
 			$printouts[$hash] = $printout;
-			$this->map[$printout['chain']] = $hash;
+			$map[$printout['chain']] = $hash;
 			if ( $printout['main column'] ) {
 				$main = $printout['chain'];
+				$main_hash = $hash;
 			}
 		}
 		// Find parent properties.
 		foreach ( $printouts as &$printout ) {
-			if ( isset( $this->map[$printout['prefix']] ) && $this->options->isOblique() ) {
+			if ( isset( $map[$printout['prefix']] ) && $options->isOblique() ) {
 				$printout['parent'] = $printout['prefix'];
+				$printout['parent hash'] = $map[$printout['prefix']];
 			} else {
 				$printout['parent'] = $main;
+				$printout['parent hash'] = $main_hash;
 			}
 			unset( $printout['prefix'] );
 		}
@@ -355,9 +359,10 @@ class GraphPrinter extends ResultPrinter {
 	 * Convert a row of data to nodes and edges.
 	 * @param array $printouts
 	 * @param array[] $row
+	 * @param bool $links Whether to add wikilinks, where possible.
 	 * @return array[] [ $nodes, $edges ]
 	 */
-	private function rowToNodesAndEdges( array $printouts, array $row ): array {
+	private static function rowToNodesAndEdges( array $printouts, array $row, bool $links ): array {
 		$targets = [];
 		$nodes = [];
 		$edges = [];
@@ -372,7 +377,7 @@ class GraphPrinter extends ResultPrinter {
 			}
 			foreach ( $values as $value ) {
 				$node = [ 'label' => $value['caption'], 'fields' => [] ];
-				if ( $this->options->isGraphLink() ) {
+				if ( $links ) {
 					$node['URL'] = $value['long'];
 				}
 				if ( $value['is file'] ) {
@@ -380,7 +385,7 @@ class GraphPrinter extends ResultPrinter {
 				}
 				$nodes[$hash][$value['id']] = $node;
 				if ( !$attrs['main column'] ) {
-					$targets[] = [ $this->map[$attrs['parent']], $hash, $value['id'] ];
+					$targets[] = [ $attrs['parent hash'], $hash, $value['id'] ];
 				}
 			}
 		}
@@ -399,7 +404,7 @@ class GraphPrinter extends ResultPrinter {
 			if ( count( $values ) === 0 ) {
 				continue; // no values.
 			}
-			$hash = $this->map[$attrs['parent']];
+			$hash = $attrs['parent hash'];
 			if ( $attrs['label for'] !== null ) {
 				// Use the first value to relabel its parent node.
 				foreach ( $nodes[$hash] as &$node ) {
@@ -412,12 +417,12 @@ class GraphPrinter extends ResultPrinter {
 				'align' => in_array( $attrs['type'], self::RIGHT_ALIGNED, true ) ? 'right' : 'left',
 				'values' => []
 			];
-			if ( $this->options->isGraphLink() ) {
+			if ( $links ) {
 				$field['href'] = $attrs['edge attrs']['URL'];
 			}
 			foreach ( $values as $value ) {
 				$field_value = [];
-				if ( $attrs['is page'] && $this->options->isGraphLink() ) {
+				if ( $attrs['is page'] && $links ) {
 					$field_value['href'] = '[[' . $value['long'] . ']]';
 				}
 				if ( $value['is file'] ) {
