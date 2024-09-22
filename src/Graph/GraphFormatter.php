@@ -170,7 +170,7 @@ class GraphFormatter {
 		$url = $this->options->isGraphLink() && strpos( $id, '=' ) === false ? "[[$id]]" : null;
 		$label = '';
 		if ( isset( $node['label'] ) && !isset( $node['image'] ) ) {
-			$label = htmlspecialchars( $node['label'] );
+			$label = $node['label'];
 		}
 		if ( count( $node['fields'] ?? [] ) === 0 ) {
 			// A simple unstructured node.
@@ -179,9 +179,12 @@ class GraphFormatter {
 		} else {
 			// Display fields, if any, with an HTML-like label.
 			$node['tooltip'] = $label;
-			$label = isset( $node['image'] )
-				? '<img src="' . $node['image'] . '" scale="true" />'
-				: $this->getWordWrappedText( $label, '<br />' );
+			if ( isset( $node['image'] ) ) {
+				$label = '<img src="' . $node['image'] . '" scale="true" />';
+				unset( $node['image'] );
+			} else {
+				$label = $this->getWordWrappedText( $label, '<br />' );
+			}
 			$node['label'] = $this->htmlLikeLabel( $label, $url, $node['fields'] );
 		}
 		unset( $node['fields'] ); // graphviz will not handle it.
@@ -199,6 +202,7 @@ class GraphFormatter {
 	private static function wrapWithTd( array $value, array $attrs ): string {
 		if ( isset( $value['image'] ) ) {
 			$content = '<img src="' . $value['image'] . '" scale="true" />';
+			$attrs['align'] = 'center'; // we want images centered, and can fo it only this late.
 		} else {
 			$content = $value['text'];
 			if ( $attrs['color'] ?? null ) {

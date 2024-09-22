@@ -200,9 +200,9 @@ class GraphOptions {
 			'graphlabel' => [ 'redefined' => true ]
 		];
 
-		$types = json_decode( file_get_contents( __DIR__ . '/specs/types.json' ), true, 3, JSON_THROW_ON_ERROR );
+		$types = json_decode( file_get_contents( __DIR__ . '/specs/types.json' ), true, 4, JSON_THROW_ON_ERROR );
 		$standardTypes = ParameterTypes::getCoreTypes();
-		$attrs = json_decode( file_get_contents( __DIR__ . '/specs/attributes.json' ), true, 3, JSON_THROW_ON_ERROR );
+		$attrs = json_decode( file_get_contents( __DIR__ . '/specs/attributes.json' ), true, 5, JSON_THROW_ON_ERROR );
 		unset( $attrs['__comment'] );
 		$params = [];
 		foreach ( $attrs as $attr => $spec ) {

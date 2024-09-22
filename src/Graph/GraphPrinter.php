@@ -4,12 +4,12 @@ namespace SRF\Graph;
 use ExtensionRegistry;
 use Html;
 use MediaWiki\MediaWikiServices;
-use SMW\Localizer;
 use SMW\Query\PrintRequest;
 use SMW\Query\Result\ResultArray;
-use SMW\ResultPrinter;
+use SMW\Query\ResultPrinters\ResultPrinter;
 use SMWDataItem;
-use SMWQueryResult;
+use SMW\Query\QueryResult;
+use SMW\Localizer\Localizer;
 
 /**
  * SMW result printer for graphs using graphViz.
@@ -120,11 +120,11 @@ class GraphPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param SMWQueryResult $res
+	 * @param QueryResult $res
 	 * @param int $outputMode
 	 * @return string
 	 */
-	protected function getResultText( SMWQueryResult $res, int $outputMode ): string {
+	protected function getResultText( QueryResult $res, $outputMode ): string {
 		// Remove this once SRF requires 3.1+.
 		if ( $this->hasMissingDependency() ) {
 			return $this->getDependencyError();
@@ -197,7 +197,7 @@ class GraphPrinter extends ResultPrinter {
 			if ( $value === false ) {
 				continue;
 			}
-			$attr = preg_replace( "/^$prefix/", '', $passed );
+			$attr = preg_replace( "/^{$prefix}[_-]?/", '', $passed );
 			if (
 				$attr === 'imagewidth' || $attr === 'imageheight' || // non-GraphViz parameter for images.
 				in_array( $attr, self::$allowedAttrs[$prefix], true )
@@ -268,10 +268,10 @@ class GraphPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param SMWQueryResult $res All printouts in SMW query
+	 * @param QueryResult $res All printouts in SMW query
 	 * @return void
 	 */
-	private function processPrintouts( SMWQueryResult $res ): void {
+	private function processPrintouts( QueryResult $res ): void {
 		$printouts = [];
 		$main = '';
 		foreach ( $res->getPrintRequests() as $request ) {
@@ -328,7 +328,7 @@ class GraphPrinter extends ResultPrinter {
 	 */
 	private static function valueToImage( array $value, array $attrs ): string {
 		$width = (int)($attrs['node attrs']['imagewidth'] ?? 0);
-		$height = (int)($attrs['node attrs']['imagewidth'] ?? 0);
+		$height = (int)($attrs['node attrs']['imageheight'] ?? 0);
 		$options = ($width ? '|width=' . $width : '') . ($height ? '|width=' . $height : '');
 		return '[[' . $value['long'] . $options . ']]';
 	}
@@ -397,15 +397,15 @@ class GraphPrinter extends ResultPrinter {
 				$field['href'] = $attrs['edge attrs']['URL'];
 			}
 			foreach ( $values as $value ) {
-				$fieldValue = [];
+				$field_value = [];
 				if ( $attrs['is page'] && $this->options->isGraphLink() ) {
-					$fieldValue['href'] = '[[' . $value['long'] . ']]';
+					$field_value['href'] = '[[' . $value['long'] . ']]';
 				}
 				if ( $value['is file'] ) {
-					$fieldValue['image'] = self::valueToImage( $value, $attrs );
+					$field_value['image'] = self::valueToImage( $value, $attrs );
 				}
-				$fieldValue['text'] = $value['caption'];
-				$field['values'][] = $fieldValue;
+				$field_value['text'] = $value['caption'];
+				$field['values'][] = $field_value;
 			}
 			// Place the field on the appropriate node.
 			$id = array_rand( $nodes[$hash] );
@@ -453,13 +453,13 @@ class GraphPrinter extends ResultPrinter {
 			'labelproperty' => [ 'default' => [], 'islist' => true, 'trim' => true ],
 			'graphfields' => [
 				'default' => false,
-				'manipluatedefault' => false,
+				'manipulatedefault' => false,
 				'type' => 'boolean',
 				'trim' => true
 			],
 			'graphoblique' => [
 				'default' => false,
-				'manipluatedefault' => false,
+				'manipulatedefault' => false,
 				'type' => 'boolean',
 				'trim' => true
 			]
