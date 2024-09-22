@@ -8,7 +8,6 @@ use SMW\Query\PrintRequest;
 use SMW\Query\Result\ResultArray;
 use SMW\Query\ResultPrinters\ResultPrinter;
 use SMWDataItem;
-use SMW\Query\QueryResult;
 use SMW\Localizer\Localizer;
 
 /**
@@ -51,17 +50,8 @@ class GraphPrinter extends ResultPrinter {
 	/** @var GraphOptions $options Graph options. */
 	private $options;
 
-	/**
-	 * @var array[] $printouts An array of relevant printout options indexed by printout hashes,
-	 * containing their nodes and edges.
-	 */
-	private $printouts = [];
-
 	/** @var array $map Map property chains to printout request hashes to distribute fields over owner nodes. */
 	private $map = [];
-
-	/** @var array[] $rows Intermediate storage of result rows. Needed to make the class testable. */
-	private $rows = [];
 
 	/** @var array[] $nodes A common pool of nodes used to merge nodes created by different printouts. */
 	private $nodes = [];
@@ -120,55 +110,59 @@ class GraphPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param QueryResult $res
-	 * @param int $outputMode
-	 * @return string
+	 * @param array $printouts
+	 * @param array $rows
+	 * @return array
 	 */
-	protected function getResultText( QueryResult $res, $outputMode ): string {
-		// Remove this once SRF requires 3.1+.
-		if ( $this->hasMissingDependency() ) {
-			return $this->getDependencyError();
-		}
-
-		// Analyse the printout requests.
-		$this->processPrintouts( $res );
-
-		// Get query result as a 2D-array. Its usage will make the class mockable and testable.
-		while ( $row = $res->getNext() ) {
-			$this->rows[] = self::resultRow( $row );
-		}
-		// Regroup rows of nodes and edges into printouts (future subgraphs).
-		foreach ( $this->rows as $row ) {
-			[ $nodes, $edges ] = $this->rowToNodesAndEdges( $row );
+	private function rowsToNodesAndEdges( array $printouts, array $rows ): array {
+		$all_nodes = [];
+		foreach ( $rows as $row ) {
+			[ $nodes, $edges ] = $this->rowToNodesAndEdges( $printouts, $row );
+			// @TODO: extract.
 			foreach ( $nodes as $hash => $group ) {
 				foreach ( $group as $id => $node ) {
 					// Guarantee nodes' uniqueness.
-					$this->nodes[$id] = self::mergeNodes( $this->nodes[$id] ?? [], $node );
-					$this->printouts[$hash]['nodes'][$id] = $this->nodes[$id];
+					$all_nodes[$id] = self::mergeNodes( $all_nodes[$id] ?? [], $node );
+					$printouts[$hash]['nodes'][$id] = $all_nodes[$id];
 				}
 			}
+			// @TODO: extract.
 			foreach ( $edges as $hash => $group ) {
-				$this->printouts[$hash]['edges'] = array_merge( $this->printouts[$hash]['edges'], $group );
+				$printouts[$hash]['edges'] = array_merge( $printouts[$hash]['edges'], $group );
 			}
 		}
+		return $printouts;
+	}
+
+	/**
+	 * This method does most of the graph rendering work. It is made public to make the class testable.
+	 * @param array[] $printouts
+	 * @param array[] $rows
+	 * @param GraphOptions $options
+	 * @param int $mode
+	 * @return string
+	 */
+	public function buildGraph( array $printouts, array $rows, GraphOptions $options, int $mode ): string {
+		// Regroup rows of nodes and edges into printouts (future subgraphs).
+		$printouts = $this->rowsToNodesAndEdges( $printouts, $rows );
 
 		// Use GraphFormatter to build the graph.
-		$graphFormatter = new GraphFormatter( $this->options );
-		$graphFormatter->buildGraph( $this->printouts );
+		$graphFormatter = new GraphFormatter( $options );
+		$graphFormatter->buildGraph( $printouts );
 
 		// GraphViz is not working for version >= 1.33, so we need to use the Diagrams or External Data extension
 		// and formatting is a little different from the GraphViz extension
-		$open = '<' . self::TAG . ' layout="' . $this->options->getLayout() . '">';
+		$open = '<' . self::TAG . ' layout="' . $options->getLayout() . '">';
 		$close = '</' . self::TAG . '>';
 		$result = $open . $graphFormatter->getGraph() . $close;
 		// Add .dot legend, if required.
-		if ( $this->options->isDotLegend() ) {
-			$result .= '<br />' . $open . $graphFormatter->getDotLegend( $this->printouts ) . $close;
+		if ( $options->isDotLegend() ) {
+			$result .= '<br />' . $open . $graphFormatter->getDotLegend( $printouts ) . $close;
 		}
 		// If using Diagrams extension, no further processing.
 		global $wgVersion;
 		if ( !(
-			$outputMode === SMW_OUTPUT_HTML &&
+			$mode === SMW_OUTPUT_HTML &&
 			version_compare( $wgVersion, '1.33', '>=' ) &&
 			ExtensionRegistry::getInstance()->isLoaded( 'Diagrams' )
 		) ) {
@@ -177,11 +171,35 @@ class GraphPrinter extends ResultPrinter {
 		}
 
 		// Append HTML legend, if required.
-		if ( $this->options->isGraphLegend() && $this->options->isGraphColor() ) {
-			$result .= $graphFormatter->getHtmlLegend( $this->printouts );
+		if ( $options->isGraphLegend() && $options->isGraphColor() ) {
+			$result .= $graphFormatter->getHtmlLegend( $printouts );
 		}
 
 		return $result;
+
+	}
+
+	/**
+	 * @param \SMWQueryResult $res
+	 * @param int $outputMode
+	 * @return string
+	 */
+	protected function getResultText( \SMWQueryResult $res, $outputMode ): string {
+		// Remove this once SRF requires 3.1+.
+		if ( $this->hasMissingDependency() ) {
+			return $this->getDependencyError();
+		}
+
+		// Analyse the printout requests.
+		$printouts = $this->processPrintouts( $res->getPrintRequests() );
+
+		// Get query result as a 2D-array. Its usage will make the class mockable and testable.
+		$rows = [];
+		while ( $row = $res->getNext() ) {
+			$rows[] = self::resultRow( $row );
+		}
+
+		return $this->buildGraph( $printouts, $rows, $this->options, $outputMode );
 	}
 
 	/**
@@ -268,13 +286,13 @@ class GraphPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param QueryResult $res All printouts in SMW query
-	 * @return void
+	 * @param PrintRequest[] $requests All printouts in SMW query
+	 * @return array
 	 */
-	private function processPrintouts( QueryResult $res ): void {
+	private function processPrintouts( array $requests ): array {
 		$printouts = [];
 		$main = '';
-		foreach ( $res->getPrintRequests() as $request ) {
+		foreach ( $requests as $request ) {
 			$printout = $this->printoutAttributes( $request );
 			$hash = $printout['hash'];
 			$printouts[$hash] = $printout;
@@ -292,7 +310,7 @@ class GraphPrinter extends ResultPrinter {
 			}
 			unset( $printout['prefix'] );
 		}
-		$this->printouts = $printouts;
+		return $printouts;
 	}
 
 	/**
@@ -335,17 +353,18 @@ class GraphPrinter extends ResultPrinter {
 
 	/**
 	 * Convert a row of data to nodes and edges.
+	 * @param array $printouts
 	 * @param array[] $row
 	 * @return array[] [ $nodes, $edges ]
 	 */
-	private function rowToNodesAndEdges( array $row ): array {
+	private function rowToNodesAndEdges( array $printouts, array $row ): array {
 		$targets = [];
 		$nodes = [];
 		$edges = [];
 
 		// Nodes first.
 		foreach ( $row as $hash => $values ) {
-			$attrs = $this->printouts[$hash];
+			$attrs = $printouts[$hash];
 			$nodes[$hash] = [];
 			$edges[$hash] = [];
 			if ( !$attrs['is node'] ) {
@@ -373,7 +392,7 @@ class GraphPrinter extends ResultPrinter {
 
 		// On-node fields.
 		foreach ( $row as $hash => $values ) {
-			$attrs = $this->printouts[$hash];
+			$attrs = $printouts[$hash];
 			if ( $attrs['is node'] ) {
 				continue; // nodes have already been processed.
 			}
