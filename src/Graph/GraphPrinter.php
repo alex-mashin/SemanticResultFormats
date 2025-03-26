@@ -1,12 +1,14 @@
 <?php
-
 namespace SRF\Graph;
 
+use ExtensionRegistry;
 use Html;
 use MediaWiki\MediaWikiServices;
 use SMW\Query\PrintRequest;
-use SMW\Query\QueryResult;
+use SMW\Query\Result\ResultArray;
 use SMW\Query\ResultPrinters\ResultPrinter;
+use SMWDataItem;
+use SMW\Localizer\Localizer;
 
 /**
  * SMW result printer for graphs using graphViz.
@@ -27,80 +29,32 @@ class GraphPrinter extends ResultPrinter {
 	// @see https://github.com/SemanticMediaWiki/SemanticMediaWiki/pull/4273
 	// Implement `ResultPrinterDependency` once SMW 3.1 becomes mandatory
 
-	public const NODELABEL_DISPLAYTITLE = 'displaytitle';
-	public static $NODE_LABELS = [
-		self::NODELABEL_DISPLAYTITLE,
-	];
+	/** @const string TAG The graphViz tag. */
+	private const TAG = 'graphviz';
+
 	/** @const string[] PAGETYPES SMW types that represent SMW pages and should always be displayed as nodes. */
 	private const PAGETYPES = [ '_wpg', '_wpp', '_wps', '_wpu', '__sup', '__sin', '__suc', '__con' ];
 
-	public static $NODE_SHAPES = [
-		'box',
-		'box3d',
-		'circle',
-		'component',
-		'diamond',
-		'doublecircle',
-		'doubleoctagon',
-		'egg',
-		'ellipse',
-		'folder',
-		'hexagon',
-		'house',
-		'invhouse',
-		'invtrapezium',
-		'invtriangle',
-		'Mcircle',
-		'Mdiamond',
-		'Msquare',
-		'Mrecord',
-		'none',
-		'note',
-		'octagon',
-		'parallelogram',
-		'pentagon ',
-		'plaintext',
-		'point',
-		'polygon',
-		'rect',
-		'record',
-		'rectangle',
-		'septagon',
-		'square',
-		'tab',
-		'trapezium',
-		'triangle',
-		'tripleoctagon',
+	/** @const string [] A special "color scheme" for this extension (a subset of SVG). */
+	private const PALETTE = [
+		'black', 'red', 'green', 'blue', 'darkviolet', 'gold', 'deeppink', 'brown', 'bisque', 'darkgreen', 'yellow',
+		'darkblue', 'magenta','steelblue2'
 	];
 
-	public static $ARROW_SHAPES = [
-		'box',
-		'crow',
-		'curve',
-		'icurve',
-		'diamond',
-		'dot',
-		'inv',
-		'none',
-		'normal',
-		'tee',
-		'vee',
-	];
+	/** @var array[] $allowedAttrs Attributes allowed for the graph, nodes and edges. */
+	private static $allowedAttrs = [ 'graph' => [], 'cluster' => [], 'node' => [], 'edge' => [] ];
 
-	/** @var GraphNode[] */
-	private $nodes = [];
+	/** @const string[] RIGHT_ALIGNED Printout types that should be right-aligned in on-node fields. */
+	private const RIGHT_ALIGNED = [ '_num', '_qty', '_dat', '_tem' ];
+
+	/** @var GraphOptions $options Graph options. */
 	private $options;
 
-	public function getName() {
-		return $this->msg( 'srf-printername-graph' )->text();
-	}
-
 	/**
-	 * @see ResultPrinter::handleParameters()
+	 * @see SMWResultPrinter::handleParameters()
 	 */
 	protected function handleParameters( array $params, $outputmode ) {
 		parent::handleParameters( $params, $outputmode );
-
 		$this->options = new GraphOptions( $params );
 	}
 
@@ -109,17 +63,18 @@ class GraphPrinter extends ResultPrinter {
 	 *
 	 * {@inheritDoc}
 	 */
-	public function hasMissingDependency() {
-		$registry = \ExtensionRegistry::getInstance();
+	public function hasMissingDependency(): bool {
+		$registry = ExtensionRegistry::getInstance();
 		return (
-			// <graphviz> can be provided by Diagrams.
-			!$registry->isLoaded( 'Diagrams' ) &&
-			!class_exists( 'GraphViz' ) && !class_exists( '\\MediaWiki\\Extension\\GraphViz\\GraphViz' )
-		) && !(
-			// <graphviz can also be added by External Data in Tag emulation mode.
-			$registry->isLoaded( 'External Data' ) &&
-			in_array( 'graphviz', MediaWikiServices::getInstance()->getParser()->getTags() )
-		);
+				// <graphviz> can be provided by Diagrams.
+				!$registry->isLoaded( 'Diagrams' ) &&
+				// or GraphViz.
+				!class_exists( 'GraphViz' ) && !class_exists( '\\MediaWiki\\Extension\\GraphViz\\GraphViz' )
+			) && !(
+				// <graphviz can also be added by External Data in Tag emulation mode.
+				$registry->isLoaded( 'External Data' ) &&
+				in_array( self::TAG, MediaWikiServices::getInstance()->getParser()->getTags(), true )
+			);
 	}
 
 	/**
@@ -130,220 +85,493 @@ class GraphPrinter extends ResultPrinter {
 	public function getDependencyError() {
 		return Html::rawElement(
 			'div',
-			[
-				'class' => 'smw-callout smw-callout-error'
-			],
+			[ 'class' => 'smw-callout smw-callout-error' ],
 			'The SRF Graph printer requires the GraphViz, Diagrams or External Data ' .
 			'(with &lt;graphviz&gt; tag defined in Tag emulation mode) extension to be installed.'
 		);
 	}
 
 	/**
-	 * @param QueryResult $res
-	 * @param $outputmode
-	 *
+	 * Merge two nodes representing the same page.
+	 * @param array $node1
+	 * @param array $node2
+	 * @return array
+	 */
+	private static function mergeNodes( array $node1, array $node2 ): array {
+		$merged = $node1 + $node2;
+		$merged['fields'] = ( $node1['fields'] ?? [] ) + ( $node2['fields'] ?? [] );
+		return $merged;
+	}
+
+	/**
+	 * @param array $printouts
+	 * @param array $rows
+	 * @param bool $links
+	 * @return array
+	 */
+	private static function rowsToNodesAndEdges( array $printouts, array $rows, bool $links ): array {
+		$all_nodes = [];
+		foreach ( $rows as $row ) {
+			[ $nodes, $edges ] = self::rowToNodesAndEdges( $printouts, $row, $links );
+			// @TODO: extract.
+			foreach ( $nodes as $hash => $group ) {
+				foreach ( $group as $id => $node ) {
+					// Guarantee nodes' uniqueness.
+					$all_nodes[$id] = self::mergeNodes( $all_nodes[$id] ?? [], $node );
+					$printouts[$hash]['nodes'][$id] = $all_nodes[$id];
+				}
+			}
+			// @TODO: extract.
+			foreach ( $edges as $hash => $group ) {
+				$printouts[$hash]['edges'] = array_merge( $printouts[$hash]['edges'], $group );
+			}
+		}
+		return $printouts;
+	}
+
+	/**
+	 * This method does most of the graph rendering work. It is made public to make the class testable.
+	 * @param array[] $printouts
+	 * @param array[] $rows
+	 * @param GraphOptions $options
+	 * @param int $mode
 	 * @return string
 	 */
-	protected function getResultText( QueryResult $res, $outputmode ) {
-		// Remove this once SRF requires 3.1+
+	private static function buildGraph( array $printouts, array $rows, GraphOptions $options, int $mode ): string {
+		// Regroup rows of nodes and edges into printouts (future subgraphs).
+		$printouts = self::rowsToNodesAndEdges( $printouts, $rows, $options->isGraphLink() );
+
+		// Use GraphFormatter to build the graph.
+		$graphFormatter = new GraphFormatter( $options );
+		$graphFormatter->buildGraph( $printouts );
+
+		// GraphViz is not working for version >= 1.33, so we need to use the Diagrams or External Data extension
+		// and formatting is a little different from the GraphViz extension
+		$open = '<' . self::TAG . ' layout="' . $options->getLayout() . '">';
+		$close = '</' . self::TAG . '>';
+		$result = $open . $graphFormatter->getGraph() . $close;
+		// Add .dot legend, if required.
+		if ( $options->isDotLegend() ) {
+			$result .= '<br />' . $open . $graphFormatter->getDotLegend( $printouts ) . $close;
+		}
+		// If using Diagrams extension, no further processing.
+		global $wgVersion;
+		if ( !(
+			$mode === SMW_OUTPUT_HTML &&
+			version_compare( $wgVersion, '1.33', '>=' ) &&
+			ExtensionRegistry::getInstance()->isLoaded( 'Diagrams' )
+		) ) {
+			// Calls graphvizParserHook function from MediaWiki GraphViz or External Data extension.
+			$result = MediaWikiServices::getInstance()->getParser()->recursiveTagParse( $result );
+		}
+
+		// Append HTML legend, if required.
+		if ( $options->isGraphLegend() && $options->isGraphColor() ) {
+			$result .= $graphFormatter->getHtmlLegend( $printouts );
+		}
+
+		return $result;
+
+	}
+
+	/**
+	 * @param \SMWQueryResult $res
+	 * @param int $outputMode
+	 * @return string
+	 */
+	protected function getResultText( \SMWQueryResult $res, $outputMode ): string {
+		// Remove this once SRF requires 3.1+.
 		if ( $this->hasMissingDependency() ) {
 			return $this->getDependencyError();
 		}
 
-		// iterate query result and create SRF\GraphNodes
+		// Analyse the printout requests.
+		$printouts = self::processPrintouts( $res->getPrintRequests(), $this->options );
+
+		// Get query result as a 2D-array. Its usage will make the class mockable and testable.
+		$rows = [];
 		while ( $row = $res->getNext() ) {
-			$this->processResultRow( $row );
+			$rows[] = self::resultRow( $row );
 		}
 
-		// use GraphFormatter to build the graph
-		$graphFormatter = new GraphFormatter( $this->options );
-		$graphFormatter->buildGraph( $this->nodes );
-
-		// GraphViz is not working for version >= 1.33, so we need to use the Diagrams or External Data extension
-		// and formatting is a little different from the GraphViz extension
-		if ( \ExtensionRegistry::getInstance()->isLoaded( 'Diagrams' ) ) {
-			// Using Diagrams extension.
-			$result = "<graphviz>{$graphFormatter->getGraph()}</graphviz>";
-		} else {
-			// Calls graphvizParserHook function from MediaWiki GraphViz or External Data extension
-			$parser = MediaWikiServices::getInstance()->getParser();
-			$result = $parser->recursiveTagParse( '<graphviz>' . $graphFormatter->getGraph() . '</graphviz>' );
-		}
-
-		// Append legend
-		$result .= $graphFormatter->getGraphLegend();
-
-		if ( $outputmode === SMW_OUTPUT_HTML ) {
-			return $result;
-		}
-
-		return MediaWikiServices::getInstance()->getParser()->recursiveTagParse( $result );
+		return self::buildGraph( $printouts, $rows, $this->options, $outputMode );
 	}
 
 	/**
-	 * Process a result row and create SRF\GraphNodes
-	 *
-	 * @since 3.1
-	 *
-	 * @param ResultArray[] $row
-	 *
+	 * Get an array of relevant node or page attributes from a print request.
+	 * @param PrintRequest $request The print request.
+	 * @param string $prefix 'edge' or 'node'.
+	 * @param bool $color Whether to color the graph.
+	 * @return string[] An associative array of parameters.
 	 */
-	protected function processResultRow( array $row ) {
-		$node = null;
-		$fields = [];
-		$parents = [];
-		// loop through all row fields
-		foreach ( $row as $result_array ) {
-			$request = $result_array->getPrintRequest();
-			$type = $request->getTypeID();
-			// Whether this printout should be shown as an edge.
-			// no fields at all.
-			$show_as_edge = !$this->options->showGraphFields()
-				|| in_array( $type, self::PAGETYPES )
-				|| $request->isMode( PrintRequest::PRINT_CHAIN );
+	private static function getOverrides( PrintRequest $request, string $prefix, bool $color ): array {
+		$stripState = MediaWikiServices::getInstance()->getParser()->getStripState();
+		$attrs = [];
+		foreach ( $request->getParameters() as $passed => $value ) {
+			if ( $value === false ) {
+				continue;
+			}
+			$attr = preg_replace( "/^{$prefix}[_-]?/", '', $passed );
+			if (
+				$attr === 'imagewidth' || $attr === 'imageheight' || // non-GraphViz parameter for images.
+				in_array( $attr, self::$allowedAttrs[$prefix], true )
+			) {
+				if ( !$color && strpos( $attr, 'color' ) !== false ) {
+					// Skip all colour-related parameters if colours are not required.
+					continue;
+				}
+				$attrs[$attr] = $stripState->unstripNoWiki( $value );
+			}
+		}
+		return $attrs;
+	}
 
-			// Loop through all values of a multivalue field.
-			while ( ( $object = $result_array->getNextDataValue() ) !== false ) {
-				if ( $show_as_edge ) {
-					if ( !$node && !$object->getProperty() ) {
-						// The graph node for the current record has not been created,
-						// and this is the printout '?'. So, create it now.
-						$node = new GraphNode( $object->getShortWikiText() );
-						$node->setLabel( $object->getPreferredCaption() ?: $object->getText() );
-					} else {
-						// Remember a parent node to add after the row is processed.
-						$parents[] = [
-							'predicate' => $request->getLabel(),
-							'object' => $object->getShortWikiText()
-						];
+	/**
+	 * Convert printout attributes to node/field/edge ones.
+	 * @param PrintRequest $request
+	 * @param GraphOptions $options
+	 * @return array
+	 */
+	private static function printoutAttributes( PrintRequest $request, GraphOptions $options ): array {
+		$canonical = $request->getCanonicalLabel();
+		$properties = explode( '.', $canonical );
+		$last = array_pop( $properties );
+		$prefix = implode( '.', $properties );
+		$label = $request->getLabel();
+		$labels = $options->getNodeLabels();
+		$role = $request->getParameter( 'role' );
+		$url = $options->isGraphLink()
+			? '[[' . Localizer::getInstance()->createTextWithNamespacePrefix( SMW_NS_PROPERTY, $last ) . ']]'
+			: null;
+		$type = $request->getTypeID();
+		$attrs = [
+			'main column' => !$request->getData(),
+			'is page' => ( in_array( $request->getTypeID(), self::PAGETYPES, true ) ),
+			// This printout shall relabel the main node.
+			'label for' => in_array( $label, $labels, true ) || in_array( $canonical, $labels, true ) ? $prefix : null,
+			'chain' => $canonical,
+			'hash' => str_replace( '|', ':', $request->getHash() ),
+			'prefix' => $prefix,
+			'node attrs' => self::getOverrides( $request, 'node', $options->isGraphColor() ),
+			'edge attrs' => self::getOverrides( $request, 'edge', $options->isGraphColor() ) + [
+				'label' => $label,
+				'URL' => $url,
+				'type' => $type,
+				'align' => in_array( $type, self::RIGHT_ALIGNED, true ) ? 'right' : 'left'
+			],
+			'nodes' => [],
+			'edges' => []
+		];
+		$attrs['chain'] = $attrs['main column'] ? '' : $attrs['chain'];
+		$attrs['is node'] = ( $attrs['is page'] && $role !== 'field' )
+			|| $role === 'node'
+			|| !$options->showGraphFields();
+		// Get colors from GraphViz colour scheme or SRF palette, if it is required and not set.
+		if ( $options->isGraphColor() ) {
+			static $counter = 0;
+			$used = false;
+			foreach ( [ 'node', 'edge' ] as $context ) {
+				$scheme = $options->getColorScheme( $context );
+				$color = $scheme === 'SVG' || $scheme === 'X11' ? self::PALETTE[$counter] : $counter + 1;
+				foreach ( [ 'color', 'fontcolor' ] as $attr ) {
+					if ( !isset( $attrs["$context attrs"][$attr] ) ) {
+						$attrs["$context attrs"][$attr] = $color;
+						$used = true;
 					}
-				} else {
-					// A non-Page property and 'graphfields' is set,
-					// so display it as a field after the row has been processed.
-					$fields[] = [
-						'name' => $request->getLabel(),
-						'value' => $object->getShortWikiText(),
-						'type' => $type,
-						'page' => $request->getCanonicalLabel()
-					];
+				}
+			}
+			if ( $used ) {
+				$counter = ($counter + 1) % count ( self::PALETTE );
+			}
+		}
+		return $attrs;
+	}
+
+	/**
+	 * @param PrintRequest[] $requests All printouts in SMW query
+	 * @param GraphOptions $options
+	 * @return array
+	 */
+	private static function processPrintouts( array $requests, GraphOptions $options ): array {
+		$printouts = [];
+		$main = '';
+		$main_hash = '';
+		$map = [];
+		foreach ( $requests as $request ) {
+			$printout = self::printoutAttributes( $request, $options );
+			$hash = $printout['hash'];
+			$printouts[$hash] = $printout;
+			$map[$printout['chain']] = $hash;
+			if ( $printout['main column'] ) {
+				$main = $printout['chain'];
+				$main_hash = $hash;
+			}
+		}
+		// Find parent properties.
+		foreach ( $printouts as &$printout ) {
+			if ( isset( $map[$printout['prefix']] ) && $options->isOblique() ) {
+				$printout['parent'] = $printout['prefix'];
+				$printout['parent hash'] = $map[$printout['prefix']];
+			} else {
+				$printout['parent'] = $main;
+				$printout['parent hash'] = $main_hash;
+			}
+			unset( $printout['prefix'] );
+		}
+		return $printouts;
+	}
+
+	/**
+	 * Convert an SMW result row into an array with the bare minimum of data.
+	 * @param ResultArray[] $row
+	 * @return array
+	 */
+	private static function resultRow( array $row ): array {
+		$result = [];
+		// Loop over the printouts.
+		foreach ( $row as /* ResultArray */ $values ) {
+			$hash = str_replace( '|', ':', $values->getPrintRequest()->getHash() );
+			$result[$hash] = [];
+			$values->reset();
+
+			while ( ( /* DataValue */ $object = $values->getNextDataValue() ) !== false ) {
+				$result[$hash][] = [
+					'id' => $object->getShortWikiText(),
+					'caption' => $object->getPreferredCaption() ?: $object->getLongWikiText(),
+					'long' => $object->getLongWikiText(),
+					'is file' => $object->getDataItem()->getDIType() === SMWDataItem::TYPE_WIKIPAGE
+						&& $object->getDataItem()->getTitle()->getNamespace() === NS_FILE
+				];
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Convert value to an image node.
+	 * @param array $value
+	 * @param array $attrs
+	 * @param int $width
+	 * @param int $height
+	 * @return string
+	 */
+	private static function valueToImage( array $value, int $width, int $height ): string {
+		$options = ($width ? '|width=' . $width : '') . ($height ? '|width=' . $height : '');
+		return '[[' . $value['long'] . $options . ']]';
+	}
+
+	/**
+	 * Try to find (only approximately for branching property chains) the 'owner' node for child nodes and fields.
+	 * @param array $parent_values
+	 * @param array $child_values
+	 * @param int $index
+	 * @return int
+	 */
+	private static function owner( array $parent_values, array $child_values, int $index ): int {
+		// Better than array_rand().
+		$sources = count( $parent_values );
+		return $sources === 1 ? 0 : floor( $index * $sources / count( $child_values ) );
+	}
+
+	/**
+	 * Distribute values of a field printout over owning nodes.
+	 * @param string $chain Printout chain.
+	 * @param array $values Field values.
+	 * @param array $attrs Edge attributes.
+	 * @param ?string $url Property URL, null, if it should not be hyperlinked.
+	 * @param bool $link Whether this field's values ought to be wikilinks.
+	 * @param array $nodes Nodes, over which the fields should be distributed.
+	 * @param array $nodes_indexed The same nodes but indexed in the order they were returned by SMW query.
+	 * @return array Nodes with fields added.
+	 */
+	private static function distributeFieldValuesOverNodes(
+		string $chain,
+		array $values,
+		array $attrs,
+		?string $url,
+		bool $link,
+		array $nodes,
+		array $nodes_indexed
+	): array {
+		if ( count( $values ) === 0 ) {
+			return $nodes; // no values.
+		}
+		$field = $attrs + [ 'values' => [] ];
+		if ( $url ) {
+			$field['href'] = $url;
+		}
+		// Place field values on respective nodes, all of which have been created by now.
+		foreach ( $values as $i => $value ) {
+			$field_value = [];
+			if ( $link ) {
+				$field_value['href'] = '[[' . $value['long'] . ']]';
+			}
+			if ( $value['is file'] ) {
+				$field_value['image'] = self::valueToImage(
+					$value,
+					(int)( $attrs['imagewidth'] ?? 0 ),
+					(int)( $attrs['imageheight'] ?? 0 )
+				);
+			}
+			$field_value['text'] = $value['caption'];
+			// Get the field owner (only approximately, if the property chain branches).
+			$owner_id = $nodes_indexed[ self::owner( $nodes_indexed, $values, $i ) ];
+			$nodes[$owner_id]['fields'][$chain] = $nodes[$owner_id]['fields'][$chain] ?? $field;
+			$nodes[$owner_id]['fields'][$chain]['values'][] = $field_value;
+		}
+		return $nodes;
+	}
+
+	/**
+	 * Convert a row of data to nodes and edges.
+	 * @param array $printouts
+	 * @param array[] $row
+	 * @param bool $links Whether to add wikilinks, where possible.
+	 * @return array[] [ $nodes, $edges ]
+	 */
+	private static function rowToNodesAndEdges( array $printouts, array $row, bool $links ): array {
+		$targets = [];
+		$nodes = [];
+		$nodes_indexed = [];
+		$edges = [];
+
+		// Nodes first.
+		foreach ( $row as $hash => $values ) {
+			$attrs = $printouts[$hash];
+			$nodes[$hash] = [];
+			$nodes_indexed[$hash] = [];
+			$edges[$hash] = [];
+			if ( !$attrs['is node'] ) {
+				continue; // we will deal with on-node fields later.
+			}
+			foreach ( $values as $i => $value ) {
+				$node = [ 'label' => $value['caption'], 'fields' => [] ];
+				if ( $links ) {
+					$node['URL'] = $value['long'];
+				}
+				if ( $value['is file'] ) {
+					$node['image'] = self::valueToImage(
+						$value,
+						(int)( $attrs['node attrs']['imagewidth'] ?? 0 ),
+						(int)( $attrs['node attrs']['imageheight'] ?? 0 )
+					);
+				}
+				$nodes[$hash][$value['id']] = $node;
+				$nodes_indexed[$hash][$i] = $value['id'];
+				// An edge is needed.
+				if ( !$attrs['main column'] ) {
+					$targets[] = [ $attrs['parent hash'], $hash, $value['id'], $i ];
 				}
 			}
 		}
-		// Add the node, if any, its parent nodes and fields for non-Page properties to the current edge.
-		if ( $node ) {
-			foreach ( $parents as $parent ) {
-				$node->addParentNode( $parent['predicate'], $parent['object'] );
-				// @TODO: add explicit nodes with hyperlinks to every parent node not added as '?', but only once.
-			}
-			foreach ( $fields as $field ) {
-				$node->addField( $field['name'], $field['value'], $field['type'], $field['page'] );
-			}
-			$this->nodes[] = $node;
+
+		// Resolve edges' sources.
+		foreach ( $targets as [ $source, $hash, $target, $index ] ) {
+			$source_index = self::owner( $nodes_indexed[$source], $nodes_indexed[$hash], $index);
+			$edges[$hash][] = [ $nodes_indexed[$source][$source_index], $target ];
 		}
+
+		// On-node fields.
+		foreach ( $row as $hash => $values ) {
+			$attrs = $printouts[$hash];
+			if ( $attrs['is node'] ) {
+				continue; // nodes have already been processed.
+			}
+			$node_hash = $attrs['parent hash'];
+			if ( $attrs['label for'] !== null ) {
+				// Use the first value to relabel its parent node.
+				foreach ( $nodes[$node_hash] as &$node ) {
+					$node['label'] = $values[0]['caption'];
+				}
+				continue;
+			}
+			$nodes[$node_hash] = self::distributeFieldValuesOverNodes(
+				$attrs['chain'],
+				$values,
+				$attrs['edge attrs'],
+				$links ? $attrs['URL'] ?? null : null,
+				$attrs['is page'] && $links,
+				$nodes[$node_hash],
+				$nodes_indexed[$node_hash]
+			);
+		}
+		return [ $nodes, $edges ];
 	}
 
 	/**
-	 * @see ResultPrinter::getParamDefinitions
-	 *
-	 * @since 1.8
-	 *
 	 * @param $definitions array of IParamDefinition
-	 *
 	 * @return array of IParamDefinition|array
+	 * @throws \JsonException
+	 * @since 1.8
+	 * @see SMWResultPrinter::getParamDefinitions
 	 */
-	public function getParamDefinitions( array $definitions ) {
+	public function getParamDefinitions( array $definitions ):array {
 		$params = parent::getParamDefinitions( $definitions );
 
-		$params['graphname'] = [
-			'default' => 'QueryResult',
-			'message' => 'srf-paramdesc-graphname',
+		$desc = 'srf-paramdesc';
+
+		$add_params = [
+			'graphcolor' => [ 'type' => 'boolean', 'default' => false, 'trim' => true ],
+			'graphname' => [ 'default' => 'QueryResult', 'trim' => true ],
+			'graphlegend' => [ 'type' => 'boolean', 'default' => false, 'trim' => true ],
+			'dotlegend' => [ 'type' => 'boolean', 'default' => false, 'trim' => true ],
+			'graphlabel' => [ 'type' => 'boolean', 'default' => false, 'trim' => true ],
+			'graphlink' => [ 'type' => 'boolean', 'default' => false, 'trim' => true ],
+			'relation' => [
+				'default' => 'child',
+				'message' => "$desc-graph-relation",
+				'manipulatedefault' => false,
+				'values' => [ 'parent', 'child', 'none' ],
+				'trim' => true
+			],
+			'wordwraplimit' => [
+				'type' => 'integer',
+				'default' => 25,
+				'message' => "$desc-graph-wwl",
+				'manipulatedefault' => false,
+				'trim' => true
+			],
+			'labelproperty' => [ 'default' => [], 'islist' => true, 'trim' => true ],
+			'graphfields' => [
+				'default' => false,
+				'manipulatedefault' => false,
+				'type' => 'boolean',
+				'trim' => true
+			],
+			'graphoblique' => [
+				'default' => false,
+				'manipulatedefault' => false,
+				'type' => 'boolean',
+				'trim' => true
+			]
 		];
 
-		$params['graphsize'] = [
-			'type' => 'string',
-			'default' => '',
-			'message' => 'srf-paramdesc-graphsize',
-			'manipulatedefault' => false,
-		];
+		// Add GraphViz attributes.
+		$add_params += GraphOptions::getGraphVizAttributes();
 
-		$params['graphfontsize'] = [
-			'type' => 'integer',
-			'default' => 10,
-			'message' => 'srf-paramdesc-graphfontsize',
-			'manipulatedefault' => false,
-		];
-
-		$params['graphlegend'] = [
-			'type' => 'boolean',
-			'default' => false,
-			'message' => 'srf-paramdesc-graphlegend',
-		];
-
-		$params['graphlabel'] = [
-			'type' => 'boolean',
-			'default' => false,
-			'message' => 'srf-paramdesc-graphlabel',
-		];
-
-		$params['graphlink'] = [
-			'type' => 'boolean',
-			'default' => false,
-			'message' => 'srf-paramdesc-graphlink',
-		];
-
-		$params['graphcolor'] = [
-			'type' => 'boolean',
-			'default' => false,
-			'message' => 'srf-paramdesc-graphcolor',
-		];
-
-		$params['arrowdirection'] = [
-			'aliases' => 'rankdir',
-			'default' => 'LR',
-			'message' => 'srf-paramdesc-rankdir',
-			'values'  => [ 'LR', 'RL', 'TB', 'BT' ],
-		];
-
-		$params['arrowhead'] = [
-			'default' => 'normal',
-			'message' => 'srf-paramdesc-arrowhead',
-			'values' => self::$ARROW_SHAPES,
-		];
-
-		$params['nodeshape'] = [
-			'default' => false,
-			'message' => 'srf-paramdesc-graph-nodeshape',
-			'manipulatedefault' => false,
-			'values' => self::$NODE_SHAPES,
-		];
-
-		$params['relation'] = [
-			'default' => 'child',
-			'message' => 'srf-paramdesc-graph-relation',
-			'manipulatedefault' => false,
-			'values' => [ 'parent', 'child' ],
-		];
-
-		$params['wordwraplimit'] = [
-			'type' => 'integer',
-			'default' => 25,
-			'message' => 'srf-paramdesc-graph-wwl',
-			'manipulatedefault' => false,
-		];
-
-		$params['nodelabel'] = [
-			'default' => '',
-			'message' => 'srf-paramdesc-nodelabel',
-			'values' => self::$NODE_LABELS,
-		];
-
-		$params['graphfields'] = [
-			'default' => false,
-			'message' => 'srf-paramdesc-graphfields',
-			'manipluatedefault' => false,
-			'type' => 'boolean'
-		];
+		foreach ( $add_params as $param => &$settings ) {
+			$settings['message'] = $settings['message'] ?? "$desc-$param";
+			$params[$param] = $settings;
+		}
 
 		return $params;
+	}
+
+	/**
+	 * Add a GraphViz attribute that can be used to customize printouts with '|+param=...' syntax.
+	 * @param string $context 'node' or 'edge'.
+	 * @param string $attr Parameter name.
+	 * @return void
+	 */
+	public static function addAttribute( string $context, string $attr ): void {
+		self::$allowedAttrs[$context][] = $attr;
+	}
+
+	/**
+	 * Return all attributes allowed for graph, cluster, node or edge.
+	 * @return array[]
+	 */
+	public static function allowedAttributes(): array {
+		return self::$allowedAttrs;
 	}
 }
