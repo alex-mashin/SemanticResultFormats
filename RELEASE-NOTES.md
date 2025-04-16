@@ -2,36 +2,53 @@ These are the release notes for the [Semantic Result Formats](https://www.semant
 
 ## SRF 5.0.0
 
-Released on TDB
+Released on April 7, 2025.
 
-Compatibility changes
+Highlights:
+* Support for MediaWiki 1.43 and Semantic MediaWiki 5
+* Significant enhancements to the DataTables format
+
+### Compatibility Changes
 
 * Added compatibility with Semantic MediaWiki 5.x
-* Changed minimum PHP version from 7.3 to 8.0
-* Improved PHP support up to version 8.4
-* Changed minimum MediaWiki version from 1.35 to 1.39
-* Improved MediaWiki support up to 1.43
+* Added support for PHP up to version 8.4
+* Added support for MediaWiki support up to version 1.43
+* Dropped support for MediaWiki older than 1.39
+* Dropped support for PHP older than 8.1
 
-Breaking changes
+### Breaking Changes
 
-* 
+* Removed the Exhibit format
 
-New features and enhancements
+### New Features and Enhancements
 
-* [864](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/864) Updated DataTables from 1.13.2 to 2.1.8 (by @alistair3149)
+* Overhauled DataTables format
+  * Improved UI integration with MediaWiki by using [Codex](https://doc.wikimedia.org/codex/main/) [871](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/871), [879](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/879) (by @alistair3149)
+  * Added "show all" to DataTable length [868](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/868) (by @alistair3149)
+  * Fixed various sorting and filter issues [865](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/865) (by @alistair3149)
+  * Fixed template Ajax navigation and improved expansion [931](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/931) (by @thomas-topway-it for ([KM-A](https://km-a.net))
+  * Fixed missing [ParentProperties](https://www.semantic-mediawiki.org/wiki/Help:Subobjects_and_queries) values [833](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/833) and [825](https://github.com/SemanticMediaWiki/SemanticResultFormats/issues/825) (by @hkwi)
+  * Bump DataTables from 1.13.2 to 2.1.8 [864](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/864) (by @alistair3149)
+  * Improved client-side cache mechanism [904](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/904) (by @thomas-topway-it)
+  * Improved accessibility with `aria-live = "polite"` attribute in DataTable [845](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/845) (by @robinwiel)
+* Updated Filtered format dependencies: Fullcalendar 6 and leaflet 1.9/leaflet-providers 2.0 (by @thomas-topway-it for ([KM-A](https://km-a.net))
+* Added `prolog` format that generates SVO predicates
+* Added `dataframe` format
+* Improved `carousel` format with vertical centering, height adjustments, smarter captions, and nested slide [857](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/857) (by @thomas-topway-it for ([KM-A](https://km-a.net))
 
-Bug fixes
+### Bug Fixes
 
-* 
+* Fixed precision issue in the `time` format
+* Fixed reuse of values output by the `incoming` format when no template is used
 
 ## SRF 4.2.1
 
 Released on March 13, 2024.
 
-* [815](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/815) Document graphfields parameter to the graph format (by @alex-mashin) 
+* [815](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/815) Document graphfields parameter to the graph format (by @alex-mashin)
 * [806](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/806) Added required resources for the bubble chare to the jqplotchart format (by@YOUR1)
 * [805](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/805) Fixed issue creating a lot of log spam (by @sophivorus)
-* [793](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/793) Fixed issue with the slidesToShow paramter to the carousel format (by @thomas-topway-it)
+* [793](https://github.com/SemanticMediaWiki/SemanticResultFormats/pull/793) Fixed issue with the slidesToShow parameter to the carousel format (by @thomas-topway-it)
 * Further improvements and fixes to the Continuous Integration (CI) (by [gesinn.it](https://gesinn.it))
 * Updated translations (by translatewiki.net community)
 
